@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" data-root="{{ROOT}}" data-page="{{PAGE}}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080c16">
+  <meta name="description" content="{{DESCRIPTION}}">
+  <title>{{TITLE}}</title>
+  <link rel="icon" href="{{ROOT}}mark.svg?v={{MARK_HASH}}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ROOT}}style.css?v={{CSS_HASH}}">
+  <script src="{{ROOT}}app.js?v={{JS_HASH}}" defer></script>
+</head>
+<body class="page-{{PAGE}}">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="{{ROOT}}" aria-label="Duel Links Decomp home"><img src="{{ROOT}}mark.svg?v={{MARK_HASH}}" alt="" width="34" height="34"><span>DUEL LINKS <b>DECOMP</b></span></a>
+    {{NAV}}
+  </header>
+  <main id="main" class="{{MAIN_CLASS}}">
+    {{BREADCRUMBS}}
+    {{CONTENT}}
+    <noscript><p class="section-shell static-data-note">This page includes the published snapshot. Enable JavaScript for filters and interactive charts, or inspect the <a href="{{ROOT}}progress.json">match data</a> and <a href="{{ROOT}}dashboard.json">dashboard data</a>.</p></noscript>
+  </main>
+  <footer class="site-footer section-shell">
+    <a class="wordmark" href="{{ROOT}}"><img src="{{ROOT}}mark.svg?v={{MARK_HASH}}" alt="" width="28" height="28"><span>DUEL LINKS <b>DECOMP</b></span></a>
+    <p>Independent research. Not affiliated with Konami.<br>Yu-Gi-Oh! and Duel Links belong to their respective rights holders.</p>
+    <div><a href="{{ROOT}}progress.json">Public progress data ↗</a><a href="{{ROOT}}dashboard.json">Research dashboard data ↗</a><span id="updated-at">Snapshot · {{UPDATED}}</span></div>
+  </footer>
+  <script type="application/json" id="initial-progress">{{PROGRESS_JSON}}</script>
+  <script type="application/json" id="initial-dashboard">{{DASHBOARD_JSON}}</script>
+</body>
+</html>

@@ -24,6 +24,8 @@ python Tools/Matching/build_and_match.py verify-targets
 
 The installed MSVC bootstrap is a known producer of the six-byte pilot. The game's exact original compiler flags are still unresolved. CN ARM64 has no certified build recipe yet.
 
+`verify-targets` audits all three configured binaries. Reproducing the enrolled pilot through integration requires only current Steam, plus its pinned compiler. To relocate binary files, use `python Tools/refresh.py --targets config/targets.local.json`; path overrides must preserve every configured identity.
+
 ## Work on one bounded function
 
 - Identify the exact target hash, entry, complete native boundary and source/header dependencies.
@@ -45,13 +47,15 @@ python Tools/export_progress.py --prepare-references
 python Tools/Matching/integrate.py
 python Tools/export_progress.py
 python Tools/export_dashboard.py
+python Tools/build_site.py
 python Tools/export_progress.py --check
 python Tools/export_dashboard.py --check
+python Tools/build_site.py --check
 ```
 
 Full integration rebuilds every enrolled unit against the pinned original. Never manually adjust public counts or turn a mismatch receipt into a matched receipt. Preserve the previous accepted scope; a new target version needs its own identity.
 
-`python Tools/refresh.py` runs tests, full integration and both exports in sequence, stopping at the first failure. Use `python Tools/refresh.py --check` for fixture tests and consistency checks in a public checkout without the game binaries.
+`python Tools/refresh.py` runs tests, full integration, both exports and the static page builder in sequence, stopping at the first failure. Use `python Tools/refresh.py --check` for fixture tests and consistency checks in a public checkout without the game binaries. Website-only edits need `python Tools/build_site.py` to regenerate pages and asset versions, followed by its `--check` and the site tests.
 
 ## Submit source for review
 

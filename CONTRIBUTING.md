@@ -26,8 +26,10 @@ python Tools/export_progress.py --prepare-references
 python Tools/Matching/integrate.py
 python Tools/export_progress.py
 python Tools/export_dashboard.py
+python Tools/build_site.py
 python Tools/export_progress.py --check
 python Tools/export_dashboard.py --check
+python Tools/build_site.py --check
 ```
 
 Review the sanitized output before committing it with source. The integration ledger binds scope, target, source, compiler and verification tooling. Do not edit generated acceptance records by hand. The public workflow tests the verifier and checks these relationships without private game files; this is explicitly a consistency check, not independent native reproduction.
@@ -35,6 +37,8 @@ Review the sanitized output before committing it with source. The integration le
 Original binaries, Wasm, decompiler output, raw native receipts, local compiler paths, credentials and compiler binaries stay outside Git. Check `git diff --cached` before publishing.
 
 ## Website changes
+
+Edit `site/templates/`, `site/style.css` or `site/app.js`, then run `python Tools/build_site.py` and `python -m unittest discover -s Tools -p 'test_build_site.py' -v`. Generated pages use content-versioned assets and embedded published data; do not hand-edit generated HTML.
 
 Preserve readable mobile and desktop layouts, keyboard access and accurate empty states. Derive charts from generated acceptance records. Keep full-engine totals unknown until an independently reviewed inventory establishes them. Do not add fake visitors, account sign-ups, contributor scores, model attribution, token use or costs.
 

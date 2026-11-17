@@ -10,6 +10,7 @@ import sys
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="Run tests and public consistency checks without original binaries")
+    parser.add_argument("--targets", type=Path, help="Private target path overrides; pinned identities must remain unchanged")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     commands = [
@@ -17,8 +18,11 @@ def main():
         ["-m", "unittest", "discover", "-s", "Tools", "-p", "test_export*.py", "-v"],
     ]
     if not args.check:
-        commands += [["Tools/export_progress.py", "--prepare-references"], ["Tools/Matching/integrate.py"], ["Tools/export_progress.py"], ["Tools/export_dashboard.py"]]
-    commands += [["Tools/export_progress.py", "--check"], ["Tools/export_dashboard.py", "--check"]]
+        integration = ["Tools/Matching/integrate.py"]
+        if args.targets:
+            integration += ["--targets", str(args.targets.resolve())]
+        commands += [["Tools/export_progress.py", "--prepare-references"], integration, ["Tools/export_progress.py"], ["Tools/export_dashboard.py"], ["Tools/build_site.py"]]
+    commands += [["Tools/export_progress.py", "--check"], ["Tools/export_dashboard.py", "--check"], ["Tools/build_site.py", "--check"], ["-m", "unittest", "discover", "-s", "Tools", "-p", "test_build_site.py", "-v"]]
     for command in commands:
         print("\n> python " + " ".join(command), flush=True)
         result = subprocess.run([sys.executable, *command], cwd=root, check=False)

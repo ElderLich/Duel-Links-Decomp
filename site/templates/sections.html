@@ -1,0 +1,116 @@
+<!-- fragment:hero -->
+<section class="hero section-shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="status-light"></span> An independent reverse-engineering project</div>
+        <h1 id="hero-title">DUEL LINKS<span>Native<br>Decompilation<span class="title-period">.</span></span></h1>
+        <p class="hero-intro">Rebuilding the engine.<br><strong>One verified function at a time.</strong></p>
+        <p class="hero-description">From native code to readable C++, with every match tied to an exact build. Follow the evidence, the tools, and the work still ahead.</p>
+        <div class="hero-actions"><a class="button button-gold" href="{{ROOT}}progress/">Explore the progress <span aria-hidden="true">↓</span></a><a class="text-link repo-link" href="https://github.com/ElderLich/Duel-Links-Decomp">View the source <span aria-hidden="true">↗</span></a></div>
+        <div class="hero-footnote"><span class="tiny-cross" aria-hidden="true">✦</span> Function matches measured. Whole-engine completion unknown.</div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="coordinate coordinate-a">NATIVE / RECONSTRUCTION</div><div class="coordinate coordinate-b">PROOF BEFORE PROGRESS</div>
+        <div class="duel-card">
+          <div class="card-top"><span>VERIFIED UNIT</span><span class="card-diamond">◆</span></div>
+          <div class="card-title">DLL_GetRevision</div>
+          <div class="card-stars">✦ ✦ ✦ ✦ ✦ ✦</div>
+          <div class="card-illustration">
+            <svg viewBox="0 0 300 300" role="presentation"><defs><linearGradient id="sigil" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4d995"/><stop offset=".5" stop-color="#8feaff"/><stop offset="1" stop-color="#b59bff"/></linearGradient></defs><g fill="none" stroke="url(#sigil)"><path opacity=".22" d="M20 150 150 20l130 130-130 130zM50 150 150 50l100 100-100 100z"/><circle cx="150" cy="150" r="97" opacity=".35"/><circle cx="150" cy="150" r="75" stroke-dasharray="3 9"/><path d="m150 65 74 128H76z" stroke-width="2"/><path d="m150 235-74-128h148z" stroke-width="2"/><path d="M75 150q75-72 150 0-75 72-150 0Z" stroke-width="2"/><path d="m150 120 30 30-30 30-30-30Z" stroke-width="2"/><circle cx="150" cy="150" r="9" fill="url(#sigil)"/><path d="M150 30v25m0 190v25M30 150h25m190 0h25M65 65l18 18m134 134 18 18M65 235l18-18M217 83l18-18" stroke-width="2"/></g></svg>
+            <span class="scan-line"></span>
+          </div>
+          <div class="card-type">[ NATIVE / C++ / EXACT MATCH ]</div>
+          <div class="card-description">Source compiled.<br>Complete boundary checked.<br>Function body matched.</div>
+          <div class="card-bottom"><span>STEAM · AMD64</span><strong>6 <small>BYTES</small></strong></div>
+        </div>
+        <div class="art-label"><span class="status-light"></span><span>FIRST MATCH ESTABLISHED</span><b>01</b></div>
+      </div>
+    </section>
+
+<!-- fragment:stats -->
+<section id="stats" class="stat-strip section-shell" aria-label="Verified project progress">
+      <div><span class="stat-number" id="function-count">—</span><span>verified function<span id="function-plural">s</span></span><small>Exact body matches</small></div>
+      <div><span class="stat-number" id="byte-count">—</span><span>matched bytes</span><small>Across verified function bodies</small></div>
+      <div><span class="stat-number" id="target-count">—</span><span>pinned targets</span><small>Steam &amp; CN builds</small></div>
+      <div class="stat-note"><span class="eyebrow">The honest denominator</span><p>The engine’s full scope is still being mapped.</p><small>No completion percentage is claimed.</small></div>
+    </section>
+
+<!-- fragment:trend -->
+<section id="trend" class="section-shell content-section report-section" aria-labelledby="trend-title">
+  <div class="section-heading"><div><span class="eyebrow">Progress / Recorded history</span><h2 id="trend-title">Progress over time</h2></div><p>Publication snapshots from verified integrations. A single recorded day establishes a baseline, not a growth rate.</p></div>
+  <div class="history-charts">
+    <article class="report-panel"><div class="panel-heading"><div><span class="eyebrow">Cumulative</span><h3>Bytes matched</h3></div><span class="chart-unit">BODY BYTES</span></div><div id="trend-bytes-chart" class="trend-chart"></div></article>
+    <article class="report-panel"><div class="panel-heading"><div><span class="eyebrow">Cumulative</span><h3>Functions matched</h3></div><span class="chart-unit">FUNCTIONS</span></div><div id="trend-functions-chart" class="trend-chart"></div></article>
+  </div>
+  <article class="report-panel daily-report"><div class="panel-heading"><div><span class="eyebrow">Newly recorded bytes / By model</span><h3>Daily contribution record</h3></div><span class="chart-unit">BODY BYTES</span></div><div id="daily-model-chart" class="trend-chart daily-chart"></div><p id="daily-model-note" class="chart-note">Only explicit model attribution is used. Unrecorded work remains unattributed.</p></article>
+  <p id="trend-note" class="chart-note">Only recorded publication dates are shown. No activity is inferred between snapshots.</p>
+  <details class="data-disclosure" open><summary>Read the history table</summary><div id="history-table" class="table-scroll"></div></details>
+  <p id="dashboard-status" class="report-status" role="status"></p>
+</section>
+
+<!-- fragment:scope -->
+<section id="scope" class="section-shell content-section report-section scope-section" aria-labelledby="scope-title">
+      <div class="section-heading"><div><span class="eyebrow">The research report / Scope map</span><h2 id="scope-title">Enrolled work map</h2></div><p>Each tile represents an enrolled function. Tile area follows its known body size, within this scope only.</p></div>
+      <div class="scope-toolbar"><div class="scope-legend"><span><i class="legend-matched"></i> Matched</span><span><i class="legend-open"></i> Open</span><span><i class="legend-blocked"></i> Blocked</span></div><label class="scope-filter">Target <select id="scope-target"><option value="all">All enrolled targets</option></select></label></div>
+      <div id="scope-map" class="scope-map" role="group" aria-label="Enrolled functions by body size"><p class="report-placeholder">Loading enrolled functions…</p></div>
+      <p id="scope-map-note" class="chart-note">Unmeasured functions cannot be represented to scale.</p><details class="data-disclosure scope-data"><summary>Inspect the scope inventory</summary><div id="scope-table" class="table-scroll"></div></details>
+    </section>
+
+<!-- fragment:contributors -->
+<section id="contributors" class="section-shell content-section report-section contributors-section" aria-labelledby="contributors-title">
+      <div class="section-heading"><div><span class="eyebrow">The research report / Contributors &amp; tools</span><h2 id="contributors-title">Contributor leaderboard</h2></div><p>Contribution credit follows recorded attribution. Missing authorship stays unassigned; a model is never guessed from the code.</p></div>
+      <div class="report-grid"><article class="report-panel contributors-panel"><div class="panel-heading"><div><span class="eyebrow">People</span><h3>Verified contributions</h3></div><span class="panel-mark" aria-hidden="true">♧</span></div><div id="contributor-list" class="table-scroll"><p class="report-placeholder">Loading contribution records…</p></div><p class="chart-note">Verified matches only. Research, review and tooling may be acknowledged separately.</p></article><article class="report-panel model-panel"><div class="panel-heading"><div><span class="eyebrow">Models &amp; tools</span><h3>Model contributions</h3></div><span class="panel-mark" aria-hidden="true">⌘</span></div><div id="model-list"><p class="report-placeholder">Loading attribution records…</p></div><p id="attribution-note" class="chart-note">A verified match can exist without a recorded model or tool attribution.</p></article></div>
+      <aside class="telemetry-note" aria-label="Telemetry availability"><div><span class="eyebrow">Research telemetry</span><p>Publish what is recorded.<br>Leave the rest unknown.</p></div><dl><div><dt>Visitors</dt><dd>Not collected</dd></div><div><dt>Token usage</dt><dd>Not collected</dd></div><div><dt>Project costs</dt><dd>Not collected</dd></div></dl></aside>
+    </section>
+
+<!-- fragment:method -->
+<section id="method" class="section-shell content-section">
+      <div class="section-heading"><div><span class="eyebrow">Reproducibility / The method</span><h2>How matching works</h2></div><p>Readable source is the start.<br>Matching the original is the test.</p></div>
+      <div class="method-grid" role="tablist" aria-label="Explore the matching workflow">
+        <button class="method-step active" id="method-tab-0" role="tab" aria-selected="true" aria-controls="method-detail" tabindex="0" data-step="0"><span class="step-index">01</span><span class="step-icon" aria-hidden="true">⌖</span><strong>Pin &amp; inspect</strong><span>Know exactly what you are rebuilding.</span></button>
+        <button class="method-step" id="method-tab-1" role="tab" aria-selected="false" aria-controls="method-detail" tabindex="-1" data-step="1"><span class="step-index">02</span><span class="step-icon" aria-hidden="true">⌘</span><strong>Reconstruct &amp; compile</strong><span>Turn observed behavior into source.</span></button>
+        <button class="method-step" id="method-tab-2" role="tab" aria-selected="false" aria-controls="method-detail" tabindex="-1" data-step="2"><span class="step-index">03</span><span class="step-icon" aria-hidden="true">⟷</span><strong>Compare &amp; record</strong><span>Let the bytes decide the result.</span></button>
+      </div>
+      <div class="method-detail" id="method-detail" role="tabpanel" aria-labelledby="method-tab-0"><span class="terminal-label">MATCHING PROTOCOL</span><p id="method-copy">Pin the input SHA-256, architecture and compiler. Establish a complete function boundary before selecting anything to compare.</p><code id="method-command">verify-targets → inspect → prove the boundary</code></div>
+      <div class="repro-note"><span aria-hidden="true">⌖</span><p><strong>Two checks, clearly separated.</strong> Local matching requires the pinned binary and compiler. The current certifier supports complete constant-return leaves; other functions need verified boundaries and reference handling. Public CI checks published source, header, gate and target hashes and runs fixture tests. It does not rebuild the private game binaries.</p><a class="text-link repo-doc-link" data-repo-path="Tools/Matching/README.md" href="https://github.com/ElderLich/Duel-Links-Decomp/blob/main/Tools/Matching/README.md">Matching protocol ↗</a></div>
+    </section>
+
+<!-- fragment:ledger -->
+<section id="ledger" class="section-shell content-section ledger-section">
+      <div class="section-heading"><div><span class="eyebrow">The research report / Match ledger</span><h2>Verified matches</h2></div><p>Each entry names its target, source, boundary and receipt. A function match says exactly that—and no more.</p></div>
+      <div class="ledger-toolbar"><div class="platform-tabs" role="tablist" aria-label="Choose a platform"><button id="steam-tab" class="active" role="tab" aria-selected="true" aria-controls="platform-panel" data-platform="steam">Steam <span>x64</span></button><button id="cn-tab" role="tab" aria-selected="false" aria-controls="platform-panel" tabindex="-1" data-platform="cn">China <span>ARM64</span></button></div><label class="search-box"><span aria-hidden="true">⌕</span><span class="sr-only">Search verified functions</span><input id="unit-search" type="search" placeholder="Find a function…" autocomplete="off"></label></div>
+      <div id="platform-panel" role="tabpanel" aria-labelledby="steam-tab">
+        <div class="platform-context"><span id="platform-title">Steam / AMD64</span><span id="platform-status">Loading verified units</span></div>
+        <div id="unit-list" class="unit-list" aria-live="polite"></div>
+        <div id="target-list" class="target-list"></div>
+      </div>
+      <p class="ledger-note">A six-byte pilot validates the reconstruction workflow. It is not a full DLL rebuild, original-source recovery, or runtime certification.</p>
+    </section>
+
+<!-- fragment:bridge -->
+<section id="bridge" class="bridge-section">
+      <div class="section-shell bridge-layout">
+        <div class="bridge-copy"><span class="eyebrow">Research / The CN connection</span><h2>CN and Steam research</h2><p>The CN build exposes a rich set of named Wasm host callbacks. These give us footholds: known API contracts, shared exports and candidate native helpers to investigate.</p><p class="muted">The Wasm module is a skill and hotfix layer. The native engine is much larger, and an identical name does not prove identical behavior.</p><a class="text-link repo-doc-link" data-repo-path="README.md" href="https://github.com/ElderLich/Duel-Links-Decomp/blob/main/README.md">Read the research approach <span aria-hidden="true">↗</span></a></div>
+        <div class="bridge-map" aria-label="CN to Steam evidence bridge"><div class="bridge-node node-wasm"><span class="node-id">CN / WASM</span><strong id="binding-count">—</strong><span>named host bindings</span></div><div class="bridge-connector"><span></span><small>FOLLOW THE CALLS</small><span></span></div><div class="bridge-node node-contract"><span class="node-id">VERIFIED ANCHORS</span><strong id="contract-count">—</strong><span>shared export contracts</span></div><div class="bridge-connector"><span></span><small>CHECK EACH BUILD</small><span></span></div><div class="bridge-node node-native"><span class="node-id">STEAM ↔ CN</span><strong id="export-count">—</strong><span>shared public exports</span></div><p class="bridge-caption"><span class="tiny-cross">✦</span> Names guide the search. Target-specific evidence proves the match.</p></div>
+      </div>
+    </section>
+
+<!-- fragment:roadmap -->
+<section id="roadmap" class="section-shell content-section roadmap-section">
+      <div class="section-heading"><div><span class="eyebrow">The research report / Milestones</span><h2>Research roadmap</h2></div><p>Milestones describe deliverables.<br>They are not a percentage of the engine.</p></div>
+      <ol id="milestone-list" class="roadmap"><li class="done"><span class="roadmap-marker">✓</span><div><span class="phase-label">Established</span><h3>Make the first exact match</h3><p>Pin the builds, compile real C++, verify a complete body, and prove the gate rejects a changed result.</p></div></li><li class="current"><span class="roadmap-marker">02</span><div><span class="phase-label">In progress</span><h3>Map the shared foundations</h3><p>Use CN contracts to identify small helpers. Recover types and boundaries, then grow the verified unit ledger.</p></div></li><li><span class="roadmap-marker">03</span><div><span class="phase-label">Planned</span><h3>Rebuild larger units</h3><p>Establish a CN compiler recipe, study link-dependent code, and add relocation-aware object and link comparison.</p></div></li><li><span class="roadmap-marker">04</span><div><span class="phase-label">Long term</span><h3>Account for the whole engine</h3><p>Expand the translation-unit inventory, define measurable coverage, and work toward a reproducible complete build.</p></div></li></ol>
+    </section>
+
+<!-- fragment:evidence -->
+<section class="section-shell evidence-section" aria-labelledby="evidence-title"><div class="section-heading compact"><div><span class="eyebrow">The evidence standard</span><h2 id="evidence-title">What the numbers mean.</h2></div></div><div class="evidence-ledger"><details open><summary><span class="badge badge-cyan">Verified</span>Exact function bodies<span class="expand-icon">+</span></summary><p>Compiled source matched the entire independently established native range. Source and target hashes identify precisely what was checked. A changed pilot was rejected by the gate: <strong id="negative-status">checking receipt</strong>.</p></details><details><summary><span class="badge badge-gold">Observed</span>Native references &amp; contracts<span class="expand-icon">+</span></summary><p>The reviewed selector table recovered <strong id="reference-count">—</strong> card IDs absent from the earlier comparison view. These are decoded references, not newly certified effects, new releases, or restored C++ functions.</p></details><details><summary><span class="badge badge-purple">Unresolved</span>Whole-engine coverage<span class="expand-icon">+</span></summary><p>The total function inventory, original build recipes and full runtime behavior remain unresolved. No overall completion percentage is published until a defensible denominator exists.</p></details></div></section>
+
+<!-- fragment:join -->
+<section id="join" class="join-section section-shell" aria-labelledby="join-title"><div class="join-copy"><span class="eyebrow">Join / Humans &amp; agents</span><h2 id="join-title">Contribute to<br><em>the rebuild.</em></h2><p>Pick a bounded task, reproduce it locally, and submit a pull request with the evidence needed to review it.</p><ol class="join-steps"><li><span>01</span><div><strong>Read the contribution guide</strong><p>Understand the scope, pinned targets and matching rules.</p></div></li><li><span>02</span><div><strong>Set up your local tools</strong><p>Use your own local game files and an explicit compiler recipe.</p></div></li><li><span>03</span><div><strong>Submit a reviewable change</strong><p>Share source and sanitized results through a GitHub pull request.</p></div></li></ol><a class="text-link" href="{{ROOT}}agents.md">Open the agent guide ↗</a></div><div class="join-terminal"><div class="terminal-top"><span><i></i><i></i><i></i></span><span>YOUR NEXT CONTRIBUTION</span></div><div class="agent-prompt"><span class="terminal-label">Tell your agent</span><label class="sr-only" for="agent-prompt-text">Copyable agent contribution prompt</label><textarea id="agent-prompt-text" rows="4" readonly spellcheck="false">Read https://elderlich.github.io/Duel-Links-Decomp/agents.md and set yourself up to contribute.</textarea><button id="copy-agent-prompt" class="button button-gold" type="button">Copy agent prompt <span aria-hidden="true">⧉</span></button><p id="copy-status" role="status" class="copy-status">Works with your preferred coding agent.</p></div><div class="join-cli"><span class="terminal-label">Or start from your terminal</span><pre><code>git clone https://github.com/ElderLich/Duel-Links-Decomp.git
+cd Duel-Links-Decomp
+python -m unittest discover -s Tools/Matching -p "test_*.py"</code></pre><p>Contribution happens through local tools and GitHub pull requests. This site has no account system or remote job runner.</p></div></div></section>
+
+<!-- fragment:closing -->
+<section class="section-shell closing-section"><div class="closing-sigil" aria-hidden="true">◇</div><span class="eyebrow">Open source. Open evidence.</span><h2>The next match<br>starts with a question.</h2><p>Explore the code, inspect the methodology,<br>or help turn an unknown into a proven function.</p><a class="button button-gold repo-link" href="https://github.com/ElderLich/Duel-Links-Decomp">Enter the repository <span aria-hidden="true">↗</span></a></section>
+
+<!-- fragment:enrolled-summary -->
+<article class="report-panel scope-summary"><span class="eyebrow">Two different denominators</span><h3>Measured work.<br>Unmapped engine.</h3><div class="scope-total"><strong id="enrolled-bytes">—</strong><span>bytes in the enrolled scope</span></div><div class="scope-total scope-total-small"><strong id="enrolled-functions">—</strong><span id="enrolled-function-label">functions with enrolled boundaries</span></div><div class="scope-meter-label"><span>Matched within this scope</span><strong id="enrolled-percent">—</strong></div><div class="scope-meter" aria-hidden="true"><span id="scope-meter-fill"></span></div><p id="scope-meter-caption" class="chart-note">Scope figures are loading.</p><div class="unknown-engine"><span aria-hidden="true">◇</span><div><strong>Whole-engine completion: unknown</strong><p>Enrolling a small unit does not establish the size of the engine. No global percentage is inferred.</p></div></div></article>

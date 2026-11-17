@@ -26,6 +26,7 @@ python -m unittest discover -s Tools/Matching -p 'test_*.py' -v
 python -m unittest discover -s Tools -p 'test_export*.py' -v
 python Tools/export_progress.py --check
 python Tools/export_dashboard.py --check
+python Tools/build_site.py --check
 ~~~
 
 GitHub Actions runs these checks and publishes only site/. It validates the committed progress snapshot against its declared source and integration hashes. Matching against the original game binary is performed locally, with the pinned original inputs. Public CI is a consistency check, not an independent original-binary rebuild.
@@ -43,6 +44,7 @@ python Tools/export_progress.py --prepare-references
 python Tools/Matching/integrate.py
 python Tools/export_progress.py
 python Tools/export_dashboard.py
+python Tools/build_site.py
 ~~~
 
 For a custom targets file, pass --targets config/targets.local.json before the subcommand. See [the gate documentation](Tools/Matching/README.md) for function boundaries, relocation handling, recipe requirements and refusal conditions.

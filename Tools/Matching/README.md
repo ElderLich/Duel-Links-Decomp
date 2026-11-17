@@ -1,11 +1,11 @@
 # Native build and byte-matching gate
 
-Run from `DLL Research` with Python 3.11 or newer. The gate uses only the standard library and does not execute a game library.
+Run from the Decomp repository root with Python 3.11 or newer. The gate uses only the standard library and does not execute a game library.
 
 ```powershell
-python Decomp/Tools/Matching/build_and_match.py verify-targets
-python Decomp/Tools/Matching/build_and_match.py run Decomp/config/recipes/steam_revision.local.json --report Decomp/Results/steam_revision.json
-python -m unittest discover -s Decomp/Tools/Matching -p 'test_*.py' -v
+python Tools/Matching/build_and_match.py verify-targets
+python Tools/Matching/build_and_match.py run config/recipes/steam_revision.local.json --report Results/steam_revision.json
+python -m unittest discover -s Tools/Matching -p 'test_*.py' -v
 ```
 
 `verify-targets` checks the exact SHA-256, byte count, architecture and format of CN ARM64, current Steam and previous Steam. `inspect <binary>` prints PE linker/Rich-header clues or ELF compiler strings. `run` builds declared C/C++ source inputs with an explicit recipe, then compares exact executable bytes. Exit 0 means every requested range matched; mismatch, build failure or an unproven input exits 1 and writes the reason.
@@ -27,7 +27,7 @@ Each recipe declares:
 - `buildProfile`: `msvc-x64-closed-v1`, the currently supported native build profile.
 - `tools`: pinned `cc` and `link` executable paths; `toolchainFiles` pins the compiler's local dependency closure, including backends and configuration files.
 - `commands`: argument arrays, with `{decomp}`, `{root}`, `{build}` and named tool placeholders. Commands run without a shell in a fresh build directory. Ambient MSVC `CL`, `_CL_`, `LINK`, `_LINK_`, `INCLUDE`, `LIB` and `LIBPATH` overrides are cleared.
-- `output`: a newly generated PE/ELF inside that attempt's build directory.
+- `output`: a newly generated PE/AMD64 DLL inside that attempt's build directory.
 - `functions`: each has a name and separate original/rebuilt selectors. A selector uses `export`, PE `rva`, or explicit `va`, plus a supported boundary rule. Optional `size` must agree with the independently derived range.
 
 Only complete supported return-u32 leaf grammars can earn acceptance. PE runtime-function ranges (`boundary: unwind`) and ELF function-symbol sizes (`boundary: symbol`) do not prove reference destinations, exception behavior or all fragments, so these selectors are refused for matching. Unknown boundaries and supplied guesses are rejected. The parser retains PE/ELF metadata for inspection; there is no certified ARM64 compile profile yet.
