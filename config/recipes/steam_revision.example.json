@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "target": "steam-current",
+  "inputs": [
+    "Source/revision.cpp",
+    "include/duel_exports.h"
+  ],
+  "tools": {
+    "cc": {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
+      "sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619"
+    },
+    "link": {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/link.exe",
+      "sha256": "a364af801a8539e4324d9489313dbf001d959128451fc99a27b24676bbac058f"
+    }
+  },
+  "commands": [
+    [
+      "{cc}",
+      "/nologo",
+      "/O2",
+      "/GS-",
+      "/GR-",
+      "/EHsc",
+      "/Zl",
+      "/c",
+      "/I{decomp}/include",
+      "/Fo{build}/revision.obj",
+      "{decomp}/Source/revision.cpp"
+    ],
+    [
+      "{link}",
+      "/NOLOGO",
+      "/DLL",
+      "/NOENTRY",
+      "/NODEFAULTLIB",
+      "/MACHINE:X64",
+      "/OPT:REF",
+      "/OUT:{build}/revision.dll",
+      "/IMPLIB:{build}/revision.lib",
+      "{build}/revision.obj"
+    ]
+  ],
+  "output": "{build}/revision.dll",
+  "functions": [
+    {
+      "name": "DLL_GetRevision",
+      "original": {
+        "export": "DLL_GetRevision",
+        "boundary": "leaf-return-u32",
+        "size": 6
+      },
+      "rebuilt": {
+        "export": "DLL_GetRevision",
+        "boundary": "leaf-return-u32"
+      }
+    }
+  ],
+  "toolchainFiles": [
+    {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/c1xx.dll",
+      "sha256": "b96238e05dcc5fd9aa2614ab5e29ee2f9d3fd775fe41ce0a2202875956f383ed"
+    },
+    {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/c2.dll",
+      "sha256": "b057a18570f712ffb535e227825a291706620f3337e5b13d896d6586fb6b3cec"
+    },
+    {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/msobj140.dll",
+      "sha256": "6a23e3aa1f1dc964f62c5a761d4ea279f77cc7c2ae3ac43e4fb91e7830bdd88f"
+    },
+    {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/mspdbcore.dll",
+      "sha256": "589861f069bbbcc47cbf496c1d9c823a23cdaccbda671d602d88ff67b48d227e"
+    },
+    {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/mspdb140.dll",
+      "sha256": "eb6535aae9d1a9860c6973fdcd1c20c20045d13db77e1d1897a474b90867aff9"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+# Preserve exact bytes: public match receipts pin source/header/gate SHA-256.
+* -text

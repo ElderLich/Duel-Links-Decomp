@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "targets": {
+    "cn-arm64-10.10.1032": {
+      "path": "Compare/DuelLinksCN/Binaries/libduel.so",
+      "sha256": "b3a348dbf1e2be1bbbd243bbf1dcf4287abf611688c831e86a5bbf75ca501621",
+      "bytes": 23213296,
+      "format": "elf",
+      "architecture": "arm64",
+      "toolchainStatus": "Observed API 23 / NDK r21d; linked objects include Clang 9.0.8 and 18.0.4 strings. Exact per-function compiler, flags and linker unresolved."
+    },
+    "steam-current": {
+      "path": "Compare/DuelLinksSteam/Binaries/new_duel.dll",
+      "sha256": "66193d0d12f5fb5ef2fb9f5df1dfd6defae1432c9336ce6880e44190f7eb1ca7",
+      "bytes": 22406656,
+      "format": "pe",
+      "architecture": "amd64",
+      "toolchainStatus": "PE linker version 14.44. MSVC 14.44 is a practical bootstrap candidate; exact original compiler and flags remain unproven."
+    },
+    "steam-previous": {
+      "path": "Compare/DuelLinksSteam/Binaries/duel.dll",
+      "sha256": "c42d35d34ceb543b159c9b8c3d4e9a55243a5898d75a09efc0bf7d73b3cb5b26",
+      "bytes": 22266880,
+      "format": "pe",
+      "architecture": "amd64",
+      "toolchainStatus": "Separate historical target; never reuse current RVAs without boundary and hash verification."
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "updated": "2026-11-17",
+  "project": {
+    "name": "Duel Links Native Decompilation",
+    "repo_url": "https://github.com/ElderLich/Duel-Links-Decomp",
+    "branch": "main"
+  },
+  "summary": {
+    "verified_functions": 1,
+    "matched_body_bytes": 6,
+    "engine_total_functions": null,
+    "engine_total_bytes": null,
+    "completion_percent": null,
+    "ignored_receipts": 1,
+    "negative_control": "passed"
+  },
+  "targets": [
+    {
+      "id": "cn-arm64-10.10.1032",
+      "label": "CN / 10.10.1032",
+      "platform": "cn",
+      "format": "elf",
+      "architecture": "arm64",
+      "sha256": "b3a348dbf1e2be1bbbd243bbf1dcf4287abf611688c831e86a5bbf75ca501621",
+      "image_bytes": 23213296,
+      "toolchain_note": "Android ARM64. Exact compiler and link recipe unresolved."
+    },
+    {
+      "id": "steam-current",
+      "label": "Steam / current",
+      "platform": "steam",
+      "format": "pe",
+      "architecture": "amd64",
+      "sha256": "66193d0d12f5fb5ef2fb9f5df1dfd6defae1432c9336ce6880e44190f7eb1ca7",
+      "image_bytes": 22406656,
+      "toolchain_note": "MSVC 14.44 bootstrap; original compiler flags unresolved."
+    },
+    {
+      "id": "steam-previous",
+      "label": "Steam / previous",
+      "platform": "steam",
+      "format": "pe",
+      "architecture": "amd64",
+      "sha256": "c42d35d34ceb543b159c9b8c3d4e9a55243a5898d75a09efc0bf7d73b3cb5b26",
+      "image_bytes": 22266880,
+      "toolchain_note": "Historical target. Addresses and matches are version-specific."
+    }
+  ],
+  "units": [
+    {
+      "name": "DLL_GetRevision",
+      "target": "steam-current",
+      "status": "matched",
+      "body_bytes": 6,
+      "boundary": "leaf-return-u32",
+      "original_rva": "0x2060",
+      "body_sha256": "e0eb3a7561c4076d7bec30953d095dcf3fa0b2a68f8eb60961258e95e548a201",
+      "target_sha256": "66193d0d12f5fb5ef2fb9f5df1dfd6defae1432c9336ce6880e44190f7eb1ca7",
+      "source": {
+        "path": "Source/revision.cpp",
+        "sha256": "0a36a897b0fa03c80577fc7685ca4a226dff5363f795685b96e373e6fc8e8950"
+      },
+      "inputs": [
+        {
+          "path": "Source/revision.cpp",
+          "sha256": "0a36a897b0fa03c80577fc7685ca4a226dff5363f795685b96e373e6fc8e8950"
+        },
+        {
+          "path": "include/duel_exports.h",
+          "sha256": "ec6172718f5569a27dbdd46cb61d72a489c7daa68bc89ccfb8da0cd62c664ab3"
+        }
+      ],
+      "receipt_sha256": "8d9a85d0b974f3a3446cd017d33fe8594cadf8102f7c019404fe5a8a464b9d10",
+      "gate_sha256": "22cf33c1809c99f1883f213dd5ec92842e79f2b78e37f3df653e496741354bbc",
+      "recipe_sha256": "484faef2f2c1f8f82c05695ae4d1fdbf0fcb8f025aba3d6ee6c481d74040ce96"
+    }
+  ],
+  "references": {
+    "host_bindings": 3980,
+    "verified_export_contracts": 154,
+    "shared_exports": 234,
+    "active_wasm_imports": 301,
+    "newly_recovered_card_references": 20,
+    "bridge_receipt_sha256": "230e4c2730bc2598dc8ea1ea5d38266f4057228b359fbe5c4206bde585f81c0e",
+    "contracts_receipt_sha256": "c2da7dea25a1564812057a3761bb196a84823f6af1d6137a134728c655075b58",
+    "card_reference_receipt_sha256": "b1677eb1185b1e3e777ed3d7f8aba3df473c5ffb23ad85bc63174850472f16c0"
+  }
+}

@@ -1,0 +1,20 @@
+# Local evidence and proprietary inputs are not part of the public source repo.
+/Evidence/
+/Results/
+/Build/
+/Work/
+*.dll
+*.so
+*.wasm
+*.i64
+*.idb
+*.obj
+*.lib
+*.o
+*.pdb
+*.ilk
+*.local.json
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
