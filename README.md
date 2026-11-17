@@ -2,7 +2,7 @@
 
 Native C++ reconstruction of Duel Links, with a function-by-function byte-matching gate and a [public progress dashboard](https://elderlich.github.io/Duel-Links-Decomp/).
 
-The bootstrap currently matches **one function body, six bytes**: current Steam's exported DLL_GetRevision. The full engine denominator is not established, so no engine completion percentage is reported. This is not a rebuilt or playable engine.
+The bootstrap matches **three function bodies, 18 bytes** in current Steam: DLL_GetRevision, DLL_DuelGetBackupSize and DLL_CardRareGetBufferSize. The full engine denominator is not established, so no engine completion percentage is reported. This is not a rebuilt or playable engine.
 
 ## Repository
 
@@ -35,7 +35,7 @@ GitHub Actions runs these checks and publishes only site/. It validates the comm
 
 Use Python 3.11+ and your own exact target binaries. The default config/targets.json expects Compare/ beside this repository, matching the local DLL Research layout. Alternatively create a private targets configuration with absolute binary paths; preserve the expected SHA-256 identities.
 
-Copy config/recipes/steam_revision.example.json to config/recipes/steam_revision.local.json and set the compiler component paths. The example retains the MSVC 14.44.35207 component digests used for the pilot. A different toolchain must be selected and audited explicitly; it is not silently accepted.
+Copy both config/recipes/steam_revision.example.json and config/recipes/steam_buffer_sizes.example.json to their corresponding .local.json files and set the compiler component paths. These templates retain the MSVC 14.44.35207 component digests used for the accepted bodies. A different toolchain must be selected and audited explicitly; it is not silently accepted.
 
 ~~~powershell
 python Tools/Matching/build_and_match.py verify-targets
@@ -53,7 +53,7 @@ For a custom targets file, pass --targets config/targets.local.json before the s
 
 The current CN build exposes 3,980 Wasm host registrations. Local analysis establishes 154 host-to-native contracts reaching exports shared with Steam, and all 234 current Steam export names occur in CN. These are useful naming and API anchors. The Wasm payload is a skill/hotfix layer, not the complete native engine, and addresses cannot be transferred across architectures.
 
-The next stage is to reconstruct small shared helpers, establish C++ types and complete boundaries, and implement verified reference resolution before counting address-sensitive functions. Only the complete address-independent return-u32 leaf grammar is currently certified for acceptance. See the [F3/FNV source review](docs/ReferenceReview.md) and [matching policy](docs/MatchingPolicy.md) for the mechanisms adopted and the remaining differences.
+The next stage is to reconstruct small shared helpers, establish C++ types and complete boundaries, and implement verified reference resolution before counting address-sensitive functions. Only the complete address-independent return-u32 leaf grammar is currently certified for acceptance. See the [buffer-size findings](docs/BufferSizeFunctions.md), [F3/FNV source review](docs/ReferenceReview.md) and [matching policy](docs/MatchingPolicy.md) for the evidence and remaining differences.
 
 ## Contribute with an agent
 

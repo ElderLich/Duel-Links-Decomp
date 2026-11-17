@@ -14,7 +14,9 @@ python -m unittest discover -s Tools/Matching -p 'test_*.py' -v
 
 `Source/revision.cpp` is a real C++ reconstruction of current Steam's exported `DLL_GetRevision`, which returns `0x1456b`. Installed MSVC 14.44.35207 compiles it to the same six-byte body as current Steam RVA `0x2060`. The original entry is an exported `mov eax,imm32; ret` leaf followed by alignment padding; the gate independently validates this complete instruction grammar. Padding is outside the compared body.
 
-`Results/steam_revision.json` records source/header hashes, pinned compiler/linker/backend identities, commands, generated output, original and rebuilt addresses, sizes and exact bytes. This is one six-byte function-body match. The reconstructed DLL has its own layout and exports; it is not a replacement for the game DLL, a whole-image match, or a measurement of engine completion. No game runtime test has been performed.
+`Source/buffer_sizes.cpp` adds `DLL_DuelGetBackupSize` and `DLL_CardRareGetBufferSize`, returning 3,520,264 and 4,096 bytes respectively. Each is another complete six-byte export body. Their signed/unsigned signatures are supported by recovered client declarations; internal buffer layouts remain unknown.
+
+Private receipts record source/header hashes, pinned compiler/linker/backend identities, commands, generated output, original and rebuilt addresses, sizes and exact bytes. Full integration accepts three functions totaling 18 body bytes. Reconstructed DLLs have their own layout and exports; they are not replacements for the game DLL, a whole-image match, or a measurement of engine completion. No game runtime test has been performed.
 
 ## Recipes and limits
 
@@ -45,6 +47,8 @@ Local static/delay DLL imports, known compiler backends and compiler configurati
 From the Decomp repository root, `python Tools/refresh.py` runs tests, rebuilds every enrolled recipe, exports public data, and checks both snapshots. `python Tools/refresh.py --check` runs fixture tests and public consistency checks without private binaries.
 
 `config/scope.json` defines the enrolled target-specific units. `Tools/Matching/integrate.py` rebuilds them all afresh and verifies their complete original ranges and body hashes. Previous accepted units cannot silently disappear or shrink. A successful integration writes sanitized `config/integration.json`; full receipts and attempt state stay under ignored `Results/Integration/`.
+
+For a reviewed new recipe, use `enroll.py <local-recipe> --template <public-template> --source <primary-source>` first. It runs the compiler and verifies the real receipt before adding scope entries, binding the first recorded UTC time to retained local evidence. It does not update public progress. Then rebuild the full scope. A failed recipe cannot add enrollment, and a new unit cannot borrow the historical pilot's publication-date basis.
 
 Both public exporters require the latest local integration to have passed. A failure leaves the last successful public snapshot intact and blocks new local export. Public `--check` validates source, scope, recipes, target and verification-tool identities, not the original binary itself. See [the matching policy](../../docs/MatchingPolicy.md) for the explicit trust boundary.
 

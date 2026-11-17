@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
-  "id": "20261117T182921Z-cd8aab623ee54b4fa2a9eaba9c2c9ab2",
+  "id": "20261117T190401Z-2c70e5a21cfa47fab440e8132eaded8f",
   "status": "passed",
-  "completed_at": "2026-11-17T18:29:22.529730Z",
+  "completed_at": "2026-11-17T19:04:03.116307Z",
   "verification": "local-native-full-enrolled-scope",
   "bindings": {
     "scope": {
       "path": "config/scope.json",
-      "sha256": "874daf5a2a7668fcc1551cfd4498493150f8c9a26e92976da2e0942241ab9842",
-      "bytes": 1061
+      "sha256": "de741fbb0bffd1fd0d97f9a0aa675c2b71799baf51bef87c6ad4a6c2fd4af9e3",
+      "bytes": 2729
     },
     "targets": {
       "path": "config/targets.json",
@@ -22,13 +22,18 @@
     },
     "integrator": {
       "path": "Tools/Matching/integrate.py",
-      "sha256": "0b392e3a9730775bf8d13398c85a8069aae602df3b32b85396ccec2a541704eb",
-      "bytes": 28351
+      "sha256": "11c676581db668ded37a0ed3f075bb8f9a9b1310d5d9c23580343067d5f621b7",
+      "bytes": 31690
+    },
+    "enroller": {
+      "path": "Tools/Matching/enroll.py",
+      "sha256": "709055f52016ae55f4e0f3248e8233abda35ff759f0cfdc47ceecbefb8be8a6a",
+      "bytes": 5760
     },
     "exporter": {
       "path": "Tools/export_dashboard.py",
-      "sha256": "38d5da086c2501c466a2c2b41a6e7c007b07adbc4cf5dcbd5c1dde05f3d68b4a",
-      "bytes": 6741
+      "sha256": "142ad7b227f73b3309d50f5ca7022736453767b4f78403c8dd7fbeab6d1e2db1",
+      "bytes": 6775
     },
     "progress_exporter": {
       "path": "Tools/export_progress.py",
@@ -42,6 +47,252 @@
     }
   },
   "units": [
+    {
+      "id": "steam-current:DLL_CardRareGetBufferSize",
+      "name": "DLL_CardRareGetBufferSize",
+      "target": "steam-current",
+      "original_rva": "0x5d90",
+      "body_bytes": 6,
+      "body_sha256": "157950e51457f98e1c693180599aae14a966188c3e845be18366a7e62777935f",
+      "boundary": "leaf-return-u32",
+      "source": "Source/buffer_sizes.cpp",
+      "first_recorded_date": "2026-11-17",
+      "date_basis": "verified-local-enrollment-date",
+      "acceptance_evidence": {
+        "receipt_sha256": "811def66443401a34978e7d5f3132a59da404ea498ccd8049f39d582beb320ca",
+        "recorded_at": "2026-11-17T19:03:51.977870Z"
+      },
+      "contributor": null,
+      "model": null,
+      "status": "integrated",
+      "target_sha256": "66193d0d12f5fb5ef2fb9f5df1dfd6defae1432c9336ce6880e44190f7eb1ca7",
+      "recipe_id": "6e8f55168c65485be370e3b62303278dac4b8b2d8fe38037281441478073ce2f",
+      "inputs": [
+        {
+          "path": "Source/buffer_sizes.cpp",
+          "sha256": "8394aff91a029caefa3658dd9883d69188bfe493c668c4765463274e7919e8e5",
+          "bytes": 633
+        }
+      ],
+      "recipe_binding": {
+        "template": {
+          "path": "config/recipes/steam_buffer_sizes.example.json",
+          "sha256": "f69ad224940afe868f6f5efa2c628c2de152124d282f0276a6f4765493b27ba4",
+          "bytes": 4011
+        },
+        "shape_sha256": "116ba2e7772347460be5dd1d18683e3e7dfeff6e4b1ef8f7c93809048480da2a",
+        "local_sha256": "75459f98c0d282b043c64cbb86a2e7897e17dc5cf6fe59fb8a7b333455b6adce"
+      },
+      "tools": [
+        {
+          "name": "cc",
+          "sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+          "bytes": 677776
+        },
+        {
+          "name": "link",
+          "sha256": "a364af801a8539e4324d9489313dbf001d959128451fc99a27b24676bbac058f",
+          "bytes": 3252616
+        }
+      ],
+      "toolchain_files": [
+        {
+          "name": "c1xx.dll",
+          "sha256": "b96238e05dcc5fd9aa2614ab5e29ee2f9d3fd775fe41ce0a2202875956f383ed",
+          "bytes": 12332344
+        },
+        {
+          "name": "c2.dll",
+          "sha256": "b057a18570f712ffb535e227825a291706620f3337e5b13d896d6586fb6b3cec",
+          "bytes": 10462008
+        },
+        {
+          "name": "cl.exe.config",
+          "sha256": "a501d29c422af1bd2c3f9abb2bb1ab371c177a3f7ccb7fd8823709c57f114bfc",
+          "bytes": 409
+        },
+        {
+          "name": "link.exe.config",
+          "sha256": "a501d29c422af1bd2c3f9abb2bb1ab371c177a3f7ccb7fd8823709c57f114bfc",
+          "bytes": 409
+        },
+        {
+          "name": "msobj140.dll",
+          "sha256": "6a23e3aa1f1dc964f62c5a761d4ea279f77cc7c2ae3ac43e4fb91e7830bdd88f",
+          "bytes": 149344
+        },
+        {
+          "name": "mspdb140.dll",
+          "sha256": "eb6535aae9d1a9860c6973fdcd1c20c20045d13db77e1d1897a474b90867aff9",
+          "bytes": 345912
+        },
+        {
+          "name": "mspdbcore.dll",
+          "sha256": "589861f069bbbcc47cbf496c1d9c823a23cdaccbda671d602d88ff67b48d227e",
+          "bytes": 1321824
+        },
+        {
+          "name": "msvcdis140.dll",
+          "sha256": "e117f84ab6a78ce5e896ced882db6cde3e2fec0018a0963e8f50d6dc5bed52ff",
+          "bytes": 1824608
+        },
+        {
+          "name": "msvcp140.dll",
+          "sha256": "0fa7eb792d3fbcf2233e4ea47e9144b9b1309ba8ed5d4731a72fffa8f4f556d6",
+          "bytes": 557416
+        },
+        {
+          "name": "msvcp140_atomic_wait.dll",
+          "sha256": "b366579799aa419a9d50daefb34c1898d22044f72dbe0c38136f86f8c216cfa1",
+          "bytes": 50032
+        },
+        {
+          "name": "pgodb140.dll",
+          "sha256": "2dcb8bd692b6731fe41881666f8987126f1da87aad2145a54af6d5277e65bf91",
+          "bytes": 88096
+        },
+        {
+          "name": "tbbmalloc.dll",
+          "sha256": "3629efbb6000da9c4ce7a9332affb85c8d04873be22a7af46b10e58a45357d89",
+          "bytes": 115000
+        },
+        {
+          "name": "vcruntime140.dll",
+          "sha256": "80b039ca328f53ce4f468eda0e6d25a6e565eb4842b3690db1d1cf033a1f2aca",
+          "bytes": 124264
+        },
+        {
+          "name": "vcruntime140_1.dll",
+          "sha256": "99ad0c5380674e28f965dc76b7cdfb8688cc2175a6641e00ab524195c3eaa900",
+          "bytes": 49592
+        }
+      ],
+      "dependency_manifest_sha256": "ea22044b6834da4f3e37ec59268103309d7ca49ce59ce534c99afd16cb609fea",
+      "receipt_sha256": "a68559d12948f4e331001a402c872b1a6b50031d18591ee011b7069865c277c0"
+    },
+    {
+      "id": "steam-current:DLL_DuelGetBackupSize",
+      "name": "DLL_DuelGetBackupSize",
+      "target": "steam-current",
+      "original_rva": "0x4f70",
+      "body_bytes": 6,
+      "body_sha256": "ef7aec72c36cec2dad9ae2e678899b0a16697372c40e57bb0f0f9df7b24b8901",
+      "boundary": "leaf-return-u32",
+      "source": "Source/buffer_sizes.cpp",
+      "first_recorded_date": "2026-11-17",
+      "date_basis": "verified-local-enrollment-date",
+      "acceptance_evidence": {
+        "receipt_sha256": "811def66443401a34978e7d5f3132a59da404ea498ccd8049f39d582beb320ca",
+        "recorded_at": "2026-11-17T19:03:51.977870Z"
+      },
+      "contributor": null,
+      "model": null,
+      "status": "integrated",
+      "target_sha256": "66193d0d12f5fb5ef2fb9f5df1dfd6defae1432c9336ce6880e44190f7eb1ca7",
+      "recipe_id": "6e8f55168c65485be370e3b62303278dac4b8b2d8fe38037281441478073ce2f",
+      "inputs": [
+        {
+          "path": "Source/buffer_sizes.cpp",
+          "sha256": "8394aff91a029caefa3658dd9883d69188bfe493c668c4765463274e7919e8e5",
+          "bytes": 633
+        }
+      ],
+      "recipe_binding": {
+        "template": {
+          "path": "config/recipes/steam_buffer_sizes.example.json",
+          "sha256": "f69ad224940afe868f6f5efa2c628c2de152124d282f0276a6f4765493b27ba4",
+          "bytes": 4011
+        },
+        "shape_sha256": "116ba2e7772347460be5dd1d18683e3e7dfeff6e4b1ef8f7c93809048480da2a",
+        "local_sha256": "75459f98c0d282b043c64cbb86a2e7897e17dc5cf6fe59fb8a7b333455b6adce"
+      },
+      "tools": [
+        {
+          "name": "cc",
+          "sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+          "bytes": 677776
+        },
+        {
+          "name": "link",
+          "sha256": "a364af801a8539e4324d9489313dbf001d959128451fc99a27b24676bbac058f",
+          "bytes": 3252616
+        }
+      ],
+      "toolchain_files": [
+        {
+          "name": "c1xx.dll",
+          "sha256": "b96238e05dcc5fd9aa2614ab5e29ee2f9d3fd775fe41ce0a2202875956f383ed",
+          "bytes": 12332344
+        },
+        {
+          "name": "c2.dll",
+          "sha256": "b057a18570f712ffb535e227825a291706620f3337e5b13d896d6586fb6b3cec",
+          "bytes": 10462008
+        },
+        {
+          "name": "cl.exe.config",
+          "sha256": "a501d29c422af1bd2c3f9abb2bb1ab371c177a3f7ccb7fd8823709c57f114bfc",
+          "bytes": 409
+        },
+        {
+          "name": "link.exe.config",
+          "sha256": "a501d29c422af1bd2c3f9abb2bb1ab371c177a3f7ccb7fd8823709c57f114bfc",
+          "bytes": 409
+        },
+        {
+          "name": "msobj140.dll",
+          "sha256": "6a23e3aa1f1dc964f62c5a761d4ea279f77cc7c2ae3ac43e4fb91e7830bdd88f",
+          "bytes": 149344
+        },
+        {
+          "name": "mspdb140.dll",
+          "sha256": "eb6535aae9d1a9860c6973fdcd1c20c20045d13db77e1d1897a474b90867aff9",
+          "bytes": 345912
+        },
+        {
+          "name": "mspdbcore.dll",
+          "sha256": "589861f069bbbcc47cbf496c1d9c823a23cdaccbda671d602d88ff67b48d227e",
+          "bytes": 1321824
+        },
+        {
+          "name": "msvcdis140.dll",
+          "sha256": "e117f84ab6a78ce5e896ced882db6cde3e2fec0018a0963e8f50d6dc5bed52ff",
+          "bytes": 1824608
+        },
+        {
+          "name": "msvcp140.dll",
+          "sha256": "0fa7eb792d3fbcf2233e4ea47e9144b9b1309ba8ed5d4731a72fffa8f4f556d6",
+          "bytes": 557416
+        },
+        {
+          "name": "msvcp140_atomic_wait.dll",
+          "sha256": "b366579799aa419a9d50daefb34c1898d22044f72dbe0c38136f86f8c216cfa1",
+          "bytes": 50032
+        },
+        {
+          "name": "pgodb140.dll",
+          "sha256": "2dcb8bd692b6731fe41881666f8987126f1da87aad2145a54af6d5277e65bf91",
+          "bytes": 88096
+        },
+        {
+          "name": "tbbmalloc.dll",
+          "sha256": "3629efbb6000da9c4ce7a9332affb85c8d04873be22a7af46b10e58a45357d89",
+          "bytes": 115000
+        },
+        {
+          "name": "vcruntime140.dll",
+          "sha256": "80b039ca328f53ce4f468eda0e6d25a6e565eb4842b3690db1d1cf033a1f2aca",
+          "bytes": 124264
+        },
+        {
+          "name": "vcruntime140_1.dll",
+          "sha256": "99ad0c5380674e28f965dc76b7cdfb8688cc2175a6641e00ab524195c3eaa900",
+          "bytes": 49592
+        }
+      ],
+      "dependency_manifest_sha256": "ea22044b6834da4f3e37ec59268103309d7ca49ce59ce534c99afd16cb609fea",
+      "receipt_sha256": "a68559d12948f4e331001a402c872b1a6b50031d18591ee011b7069865c277c0"
+    },
     {
       "id": "steam-current:DLL_GetRevision",
       "name": "DLL_GetRevision",
@@ -167,10 +418,10 @@
           "bytes": 49592
         }
       ],
-      "dependency_manifest_sha256": "53a11547abc435d61e26fde73278cfc3490ce2a57bb750fc9c31dfd49ed33068",
-      "receipt_sha256": "72cb70ef118ebf1b5d81dc44021b5d480d5390e9dbd640cb4688ad281de6995d"
+      "dependency_manifest_sha256": "100da6cfc55481e6a10b37bda7986285ec967c082f0e27ce06879e7329ab46b0",
+      "receipt_sha256": "9dcdfebe9b8fbc0cc2f55f67aba24c433dc52e2d196e4dd19d648969bb1f3cef"
     }
   ],
-  "previous_integration_sha256": "20328b85186f1193b1327cc054b07ab2373861caf49c30be8511e76c9bb43167",
-  "payload_sha256": "d8d9e974422cda95c6b6fb0b0f73e41a43ce4dd8bdcac39b1970ee03e98c0d95"
+  "previous_integration_sha256": "2a070b75dd229a30ffb4d524ce350e303261d05ef04de3a55e5bdf67e3bd99e2",
+  "payload_sha256": "d2f4400ac2fba4151005b719b1680e2c5390a669361755537ce5548b01cd7033"
 }

@@ -7,8 +7,8 @@
     "branch": "main"
   },
   "summary": {
-    "verified_functions": 1,
-    "matched_body_bytes": 6,
+    "verified_functions": 3,
+    "matched_body_bytes": 18,
     "engine_total_functions": null,
     "engine_total_bytes": null,
     "completion_percent": null,
@@ -71,9 +71,55 @@
           "sha256": "ec6172718f5569a27dbdd46cb61d72a489c7daa68bc89ccfb8da0cd62c664ab3"
         }
       ],
-      "receipt_sha256": "72cb70ef118ebf1b5d81dc44021b5d480d5390e9dbd640cb4688ad281de6995d",
+      "receipt_sha256": "9dcdfebe9b8fbc0cc2f55f67aba24c433dc52e2d196e4dd19d648969bb1f3cef",
       "gate_sha256": "2daec81ec669c02123e5a09011f48bb1351345a50e2387cee5275de76439275a",
       "recipe_sha256": "7c3962977d990e9633d2cfffa2eb2287b6743cf1cc2c18de0e90b8c4f01996c4"
+    },
+    {
+      "name": "DLL_DuelGetBackupSize",
+      "target": "steam-current",
+      "status": "matched",
+      "body_bytes": 6,
+      "boundary": "leaf-return-u32",
+      "original_rva": "0x4f70",
+      "body_sha256": "ef7aec72c36cec2dad9ae2e678899b0a16697372c40e57bb0f0f9df7b24b8901",
+      "target_sha256": "66193d0d12f5fb5ef2fb9f5df1dfd6defae1432c9336ce6880e44190f7eb1ca7",
+      "source": {
+        "path": "Source/buffer_sizes.cpp",
+        "sha256": "8394aff91a029caefa3658dd9883d69188bfe493c668c4765463274e7919e8e5"
+      },
+      "inputs": [
+        {
+          "path": "Source/buffer_sizes.cpp",
+          "sha256": "8394aff91a029caefa3658dd9883d69188bfe493c668c4765463274e7919e8e5"
+        }
+      ],
+      "receipt_sha256": "a68559d12948f4e331001a402c872b1a6b50031d18591ee011b7069865c277c0",
+      "gate_sha256": "2daec81ec669c02123e5a09011f48bb1351345a50e2387cee5275de76439275a",
+      "recipe_sha256": "75459f98c0d282b043c64cbb86a2e7897e17dc5cf6fe59fb8a7b333455b6adce"
+    },
+    {
+      "name": "DLL_CardRareGetBufferSize",
+      "target": "steam-current",
+      "status": "matched",
+      "body_bytes": 6,
+      "boundary": "leaf-return-u32",
+      "original_rva": "0x5d90",
+      "body_sha256": "157950e51457f98e1c693180599aae14a966188c3e845be18366a7e62777935f",
+      "target_sha256": "66193d0d12f5fb5ef2fb9f5df1dfd6defae1432c9336ce6880e44190f7eb1ca7",
+      "source": {
+        "path": "Source/buffer_sizes.cpp",
+        "sha256": "8394aff91a029caefa3658dd9883d69188bfe493c668c4765463274e7919e8e5"
+      },
+      "inputs": [
+        {
+          "path": "Source/buffer_sizes.cpp",
+          "sha256": "8394aff91a029caefa3658dd9883d69188bfe493c668c4765463274e7919e8e5"
+        }
+      ],
+      "receipt_sha256": "a68559d12948f4e331001a402c872b1a6b50031d18591ee011b7069865c277c0",
+      "gate_sha256": "2daec81ec669c02123e5a09011f48bb1351345a50e2387cee5275de76439275a",
+      "recipe_sha256": "75459f98c0d282b043c64cbb86a2e7897e17dc5cf6fe59fb8a7b333455b6adce"
     }
   ],
   "references": {

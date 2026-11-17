@@ -6,19 +6,19 @@
     "branch": "main"
   },
   "integration": {
-    "id": "20261117T182921Z-cd8aab623ee54b4fa2a9eaba9c2c9ab2",
-    "completed_at": "2026-11-17T18:29:22.529730Z",
+    "id": "20261117T190401Z-2c70e5a21cfa47fab440e8132eaded8f",
+    "completed_at": "2026-11-17T19:04:03.116307Z",
     "status": "passed",
     "verification": "local-native-full-enrolled-scope",
     "ci_verification": "consistency-only-no-native-binaries",
-    "snapshot_sha256": "2a070b75dd229a30ffb4d524ce350e303261d05ef04de3a55e5bdf67e3bd99e2"
+    "snapshot_sha256": "4752a4cead1403b04877269c0afc7bd409d7cdeeafbed59c659a5651c473683b"
   },
   "scope": {
     "inventory_complete": false,
-    "enrolled_units": 1,
-    "enrolled_body_bytes": 6,
-    "integrated_units": 1,
-    "integrated_body_bytes": 6,
+    "enrolled_units": 3,
+    "enrolled_body_bytes": 18,
+    "integrated_units": 3,
+    "integrated_body_bytes": 18,
     "pending_units": 0,
     "pending_body_bytes": 0,
     "engine_total_units": null,
@@ -43,10 +43,10 @@
       "label": "Steam / current",
       "platform": "steam",
       "sha256": "66193d0d12f5fb5ef2fb9f5df1dfd6defae1432c9336ce6880e44190f7eb1ca7",
-      "enrolled_units": 1,
-      "enrolled_body_bytes": 6,
-      "integrated_units": 1,
-      "integrated_body_bytes": 6,
+      "enrolled_units": 3,
+      "enrolled_body_bytes": 18,
+      "integrated_units": 3,
+      "integrated_body_bytes": 18,
       "pending_units": 0,
       "pending_body_bytes": 0
     },
@@ -65,6 +65,30 @@
   ],
   "units": [
     {
+      "id": "steam-current:DLL_CardRareGetBufferSize",
+      "name": "DLL_CardRareGetBufferSize",
+      "target": "steam-current",
+      "source": "Source/buffer_sizes.cpp",
+      "original_rva": "0x5d90",
+      "body_bytes": 6,
+      "status": "integrated",
+      "first_accepted_date": "2026-11-17",
+      "contributor": null,
+      "model": null
+    },
+    {
+      "id": "steam-current:DLL_DuelGetBackupSize",
+      "name": "DLL_DuelGetBackupSize",
+      "target": "steam-current",
+      "source": "Source/buffer_sizes.cpp",
+      "original_rva": "0x4f70",
+      "body_bytes": 6,
+      "status": "integrated",
+      "first_accepted_date": "2026-11-17",
+      "contributor": null,
+      "model": null
+    },
+    {
       "id": "steam-current:DLL_GetRevision",
       "name": "DLL_GetRevision",
       "target": "steam-current",
@@ -80,13 +104,29 @@
   "daily_trend": [
     {
       "date": "2026-11-17",
-      "accepted_units": 1,
-      "accepted_body_bytes": 6,
-      "cumulative_units": 1,
-      "cumulative_body_bytes": 6
+      "accepted_units": 3,
+      "accepted_body_bytes": 18,
+      "cumulative_units": 3,
+      "cumulative_body_bytes": 18
     }
   ],
   "size_map": [
+    {
+      "id": "steam-current:DLL_CardRareGetBufferSize",
+      "name": "DLL_CardRareGetBufferSize",
+      "target": "steam-current",
+      "source": "Source/buffer_sizes.cpp",
+      "body_bytes": 6,
+      "status": "integrated"
+    },
+    {
+      "id": "steam-current:DLL_DuelGetBackupSize",
+      "name": "DLL_DuelGetBackupSize",
+      "target": "steam-current",
+      "source": "Source/buffer_sizes.cpp",
+      "body_bytes": 6,
+      "status": "integrated"
+    },
     {
       "id": "steam-current:DLL_GetRevision",
       "name": "DLL_GetRevision",
@@ -100,16 +140,16 @@
     {
       "id": "unknown",
       "label": "Unknown / unrecorded",
-      "units": 1,
-      "body_bytes": 6
+      "units": 3,
+      "body_bytes": 18
     }
   ],
   "models": [
     {
       "id": "unknown",
       "label": "Unknown / unrecorded",
-      "units": 1,
-      "body_bytes": 6
+      "units": 3,
+      "body_bytes": 18
     }
   ],
   "milestones": [
@@ -117,14 +157,14 @@
       "id": "full-enrolled-integration",
       "date": "2026-11-17",
       "label": "All enrolled units rebuilt and matched",
-      "units": 1,
-      "body_bytes": 6
+      "units": 3,
+      "body_bytes": 18
     }
   ],
   "limitations": [
     "Full enrolled-scope success is not whole-engine completion; the native inventory denominator is unknown.",
     "CI validates committed source, recipe, toolchain pins and ledger consistency. It cannot independently match private native binaries.",
-    "First acceptance dates show the first recorded publication day, bound to the original receipt and published snapshot; no precise original acceptance time was recorded.",
+    "First recorded dates retain their evidence basis: the initial pilot uses its historical publication day; later units use a fresh verified local enrollment timestamp. Rebuilds do not add progress again.",
     "Contributor and model attribution are unknown where no historical evidence was recorded. Token, cost and visitor data are not collected."
   ]
 }

@@ -75,7 +75,7 @@ def build_dashboard(root, snapshot):
                             "label": "All enrolled units rebuilt and matched", "units": len(units), "body_bytes": total_bytes}],
             "limitations": ["Full enrolled-scope success is not whole-engine completion; the native inventory denominator is unknown.",
                             "CI validates committed source, recipe, toolchain pins and ledger consistency. It cannot independently match private native binaries.",
-                            "First acceptance dates show the first recorded publication day, bound to the original receipt and published snapshot; no precise original acceptance time was recorded.",
+                            "First recorded dates retain their evidence basis: the initial pilot uses its historical publication day; later units use a fresh verified local enrollment timestamp. Rebuilds do not add progress again.",
                             "Contributor and model attribution are unknown where no historical evidence was recorded. Token, cost and visitor data are not collected."]}
 
 

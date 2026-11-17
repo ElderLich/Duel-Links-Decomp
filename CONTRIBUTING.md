@@ -19,6 +19,14 @@ New functions, changed compiler recipes and new acceptance mechanisms need maint
 
 ## Acceptance and publication
 
+For a reviewed new recipe, first record its real local enrollment. Use repository-relative paths and a separate recipe containing only the new units:
+
+```powershell
+python Tools/Matching/enroll.py config/recipes/new_unit.local.json --template config/recipes/new_unit.example.json --source Source/new_unit.cpp
+```
+
+The enrollment command runs the compiler and verifies the complete receipt before adding scope entries. It records the current UTC day and leaves public progress unchanged. Do not invent a historical publication hash for a new function. Then run full integration below; already enrolled units only need integration.
+
 ```powershell
 python -m unittest discover -s Tools/Matching -p 'test_*.py' -v
 python -m unittest discover -s Tools -p 'test_export*.py' -v

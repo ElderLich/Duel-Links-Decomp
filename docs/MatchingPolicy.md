@@ -11,7 +11,7 @@ A model may suggest incorrect code. It cannot award itself a match. A candidate 
 
 ## Current acceptance envelope
 
-The certified pilot is the complete address-independent `leaf-return-u32` grammar. It establishes the constant-return body of Steam's `DLL_GetRevision`. General PE unwind ranges and ELF symbol sizes remain useful inventory evidence, but are not sufficient acceptance proofs.
+The certified acceptance envelope is the complete address-independent `leaf-return-u32` grammar. It establishes the constant-return bodies of Steam's `DLL_GetRevision`, `DLL_DuelGetBackupSize` and `DLL_CardRareGetBufferSize`. General PE unwind ranges and ELF symbol sizes remain useful inventory evidence, but are not sufficient acceptance proofs.
 
 Identical bytes alone are unsafe for code with relative references at different addresses: the same displacement can point to different callees or data. A future general matcher must reconstruct and verify those targets, all relevant data, exception metadata and fragments. Until then such candidates fail closed.
 
@@ -24,6 +24,8 @@ Scope is a reviewed list of target-specific native units, not a count inferred f
 An enrolled-scope percentage describes that list only. The entire engine's function and byte denominators remain unknown. CN naming references, decompiled pseudocode and card research are never added to matched-source totals.
 
 Daily charts use first-recorded acceptance dates, not the day a snapshot is regenerated. Rebuilding a unit again earns no additional function or byte credit. Unknown historical contributors and models stay unattributed. The site has no visitor collection or billing telemetry.
+
+The initial revision pilot retains its historical published-snapshot date. New entries use `Tools/Matching/enroll.py`, which compiles the reviewed recipe, verifies the actual receipt and records the UTC time after that result. Full integration checks the retained enrollment receipt for newly added units and recompiles the entire scope. Enrollment by itself is not published progress. Later rebuilds cannot rewrite the first recorded day.
 
 ## Trust boundary
 

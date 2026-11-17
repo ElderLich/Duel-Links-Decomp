@@ -22,7 +22,7 @@ python -m unittest discover -s Tools/Matching -p 'test_*.py' -v
 python Tools/Matching/build_and_match.py verify-targets
 ```
 
-The installed MSVC bootstrap is a known producer of the six-byte pilot. The game's exact original compiler flags are still unresolved. CN ARM64 has no certified build recipe yet.
+The installed MSVC bootstrap reproduces three complete constant-return bodies totaling 18 bytes. The game's exact original compiler flags are still unresolved. CN ARM64 has no certified build recipe yet.
 
 `verify-targets` audits all three configured binaries. Reproducing the enrolled pilot through integration requires only current Steam, plus its pinned compiler. To relocate binary files, use `python Tools/refresh.py --targets config/targets.local.json`; path overrides must preserve every configured identity.
 

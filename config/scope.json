@@ -24,6 +24,46 @@
       },
       "contributor": null,
       "model": null
+    },
+    {
+      "id": "steam-current:DLL_DuelGetBackupSize",
+      "name": "DLL_DuelGetBackupSize",
+      "target": "steam-current",
+      "original_rva": "0x4f70",
+      "body_bytes": 6,
+      "body_sha256": "ef7aec72c36cec2dad9ae2e678899b0a16697372c40e57bb0f0f9df7b24b8901",
+      "boundary": "leaf-return-u32",
+      "source": "Source/buffer_sizes.cpp",
+      "recipe": "config/recipes/steam_buffer_sizes.local.json",
+      "recipe_template": "config/recipes/steam_buffer_sizes.example.json",
+      "first_recorded_date": "2026-11-17",
+      "date_basis": "verified-local-enrollment-date",
+      "acceptance_evidence": {
+        "receipt_sha256": "811def66443401a34978e7d5f3132a59da404ea498ccd8049f39d582beb320ca",
+        "recorded_at": "2026-11-17T19:03:51.977870Z"
+      },
+      "contributor": null,
+      "model": null
+    },
+    {
+      "id": "steam-current:DLL_CardRareGetBufferSize",
+      "name": "DLL_CardRareGetBufferSize",
+      "target": "steam-current",
+      "original_rva": "0x5d90",
+      "body_bytes": 6,
+      "body_sha256": "157950e51457f98e1c693180599aae14a966188c3e845be18366a7e62777935f",
+      "boundary": "leaf-return-u32",
+      "source": "Source/buffer_sizes.cpp",
+      "recipe": "config/recipes/steam_buffer_sizes.local.json",
+      "recipe_template": "config/recipes/steam_buffer_sizes.example.json",
+      "first_recorded_date": "2026-11-17",
+      "date_basis": "verified-local-enrollment-date",
+      "acceptance_evidence": {
+        "receipt_sha256": "811def66443401a34978e7d5f3132a59da404ea498ccd8049f39d582beb320ca",
+        "recorded_at": "2026-11-17T19:03:51.977870Z"
+      },
+      "contributor": null,
+      "model": null
     }
   ]
 }

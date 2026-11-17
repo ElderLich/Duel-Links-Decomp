@@ -27,7 +27,7 @@ The FNV comparator does not simply ignore relocation bytes. It first resolves ea
 
 ## Remaining differences
 
-The exact original Duel Links compiler and link recipe are unresolved. Installed MSVC 14.44.35207 reproduces the six-byte pilot, which is evidence for that body only. General COFF relocation handling, data-object equivalence, exception tables, function fragments, original section layout and whole-image reproduction still require implementation and validation.
+The exact original Duel Links compiler and link recipe are unresolved. Installed MSVC 14.44.35207 reproduces three complete constant-return bodies totaling 18 bytes, which is evidence for those bodies only. General COFF relocation handling, data-object equivalence, exception tables, function fragments, original section layout and whole-image reproduction still require implementation and validation.
 
 GitHub's public checks validate the committed source/evidence relationships without a game binary. The original-binary integration runs locally. A committed receipt is an auditable maintainer claim, not a cryptographic attestation from an independent build host. The dashboard labels these two forms of verification separately.
 

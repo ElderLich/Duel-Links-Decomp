@@ -1,5 +1,6 @@
 """Integration refusal paths use synthetic receipts; no private binaries/compiler."""
 import copy
+from datetime import datetime, timedelta
 import hashlib
 import importlib.util
 from pathlib import Path
@@ -253,6 +254,106 @@ class IntegrationTests(unittest.TestCase):
         integration.write(path, recipe)
         with self.assertRaisesRegex(integration.IntegrationError, "differs from public template"):
             self.fixture.run()
+
+    def prepare_enrollment(self, mutate=None):
+        import enroll
+        self.fixture.run()
+        original = copy.deepcopy(self.fixture.scope)
+        self.fixture.add_unit("second", "0x2000", recipe="second")
+        self.fixture.scope = original
+        integration.write(self.root / "config/scope.json", original)
+        self.fixture.mutate = mutate
+        with patch.object(enroll, "integration", integration), patch.object(integration, "load_gate", return_value=SimpleNamespace(run_recipe=self.fixture.run_recipe)):
+            return enroll.enroll(self.root, "config/recipes/second.local.json", "config/recipes/second.example.json", "Source/pilot.cpp")
+
+    def test_new_enrollment_uses_fresh_verified_receipt_before_full_integration(self):
+        units = self.prepare_enrollment()
+        self.assertEqual(1, len(units))
+        self.assertEqual("verified-local-enrollment-date", units[0]["date_basis"])
+        self.assertEqual(units[0]["first_recorded_date"], units[0]["acceptance_evidence"]["recorded_at"].split("T")[0])
+        # Enrollment never updates the previously published success snapshot.
+        self.assertEqual(1, len(integration.read(self.root / "config/integration.json")["units"]))
+        result = self.fixture.run()
+        self.assertEqual(2, len(result["units"]))
+        self.assertEqual(2, len(self.fixture.run()["units"]))
+
+    def test_new_enrollment_tampered_receipt_blocks_integration(self):
+        units = self.prepare_enrollment()
+        path = self.root / "Results/Enrollment" / (units[0]["acceptance_evidence"]["receipt_sha256"] + ".json")
+        path.write_text("tampered")
+        with self.assertRaisesRegex(integration.IntegrationError, "receipt changed"):
+            self.fixture.run()
+        self.assertEqual(1, len(integration.read(self.root / "config/integration.json")["units"]))
+
+    def test_unhashed_sidecar_cannot_backdate_a_verified_enrollment(self):
+        units = self.prepare_enrollment()
+        scope = integration.read(self.root / "config/scope.json")
+        unit = scope["units"][-1]
+        evidence = unit["acceptance_evidence"]
+        path = self.root / "Results/Enrollment" / (evidence["receipt_sha256"] + ".json")
+        original = path.read_bytes()
+        self.assertEqual(evidence["recorded_at"], integration.read(path)["recorded_at"])
+        evidence["recorded_at"] = "2020-01-01T00:00:00Z"
+        unit["first_recorded_date"] = "2020-01-01"
+        integration.write(self.root / "config/scope.json", scope)
+        integration.write(path.with_suffix(".record.json"), {"schema_version": 1,
+                          "receipt_sha256": evidence["receipt_sha256"], "recorded_at": evidence["recorded_at"],
+                          "unit_ids": [units[0]["id"]]})
+        with self.assertRaisesRegex(integration.IntegrationError, "record differs"):
+            self.fixture.run()
+        self.assertEqual(original, path.read_bytes())
+
+    def test_scope_and_template_edits_during_enrollment_are_not_overwritten(self):
+        def edit_scope(report):
+            scope = integration.read(self.root / "config/scope.json")
+            scope["name"] = "Concurrent user edit"
+            integration.write(self.root / "config/scope.json", scope)
+        with self.assertRaisesRegex(integration.IntegrationError, "changed during compilation"):
+            self.prepare_enrollment(edit_scope)
+        self.assertEqual("Concurrent user edit", integration.read(self.root / "config/scope.json")["name"])
+        self.assertEqual(1, len(integration.read(self.root / "config/scope.json")["units"]))
+
+    def test_public_recipe_changed_during_compile_cannot_be_enrolled(self):
+        def edit_template(report):
+            path = self.root / "config/recipes/second.example.json"
+            recipe = integration.read(path)
+            recipe["commands"].append(["{cc}", "changed-template"])
+            integration.write(path, recipe)
+        with self.assertRaisesRegex(integration.IntegrationError, "public template changed"):
+            self.prepare_enrollment(edit_template)
+        self.assertEqual(1, len(integration.read(self.root / "config/scope.json")["units"]))
+
+    def test_public_integration_cannot_predate_its_enrollment_timestamp(self):
+        units = self.prepare_enrollment()
+        data = self.fixture.run()
+        recorded = datetime.fromisoformat(units[0]["acceptance_evidence"]["recorded_at"].replace("Z", "+00:00"))
+        data["completed_at"] = (recorded - timedelta(microseconds=1)).isoformat().replace("+00:00", "Z")
+        data["payload_sha256"] = integration.digest(integration.canonical({k: v for k, v in data.items() if k != "payload_sha256"}))
+        with self.assertRaisesRegex(integration.IntegrationError, "after integration"):
+            integration.validate_snapshot(self.root, data)
+
+    def test_new_enrollment_cannot_forge_earlier_day_or_legacy_publication(self):
+        self.prepare_enrollment()
+        scope = integration.read(self.root / "config/scope.json")
+        unit = scope["units"][-1]
+        unit["first_recorded_date"] = "2020-01-01"
+        integration.write(self.root / "config/scope.json", scope)
+        with self.assertRaisesRegex(integration.IntegrationError, "UTC time"):
+            self.fixture.run()
+        unit.update(first_recorded_date="2020-01-01", date_basis="published-progress-snapshot-date",
+                    acceptance_evidence={"receipt_sha256":"1" * 64,"publication_snapshot_sha256":"2" * 64})
+        integration.write(self.root / "config/scope.json", scope)
+        with self.assertRaisesRegex(integration.IntegrationError, "historical publication"):
+            self.fixture.run()
+
+    def test_failed_enrollment_leaves_scope_unchanged(self):
+        import enroll
+        self.fixture.fail = True
+        prior = (self.root / "config/scope.json").read_bytes()
+        with patch.object(enroll, "integration", integration), patch.object(integration, "load_gate", return_value=SimpleNamespace(run_recipe=self.fixture.run_recipe)):
+            with self.assertRaisesRegex(integration.IntegrationError, "did not match"):
+                enroll.enroll(self.root, "config/recipes/pilot.local.json", "config/recipes/pilot.example.json", "Source/pilot.cpp")
+        self.assertEqual(prior, (self.root / "config/scope.json").read_bytes())
 
 
 if __name__ == "__main__":

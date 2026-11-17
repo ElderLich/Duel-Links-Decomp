@@ -22,6 +22,7 @@ SHA = re.compile(r"[0-9a-f]{64}\Z")
 IDENTIFIER = re.compile(r"[A-Za-z0-9_:.+-]{1,160}\Z")
 BINDINGS = {"scope": "config/scope.json", "targets": "config/targets.json",
             "matcher": "Tools/Matching/build_and_match.py", "integrator": "Tools/Matching/integrate.py",
+            "enroller": "Tools/Matching/enroll.py",
             "exporter": "Tools/export_dashboard.py", "progress_exporter": "Tools/export_progress.py",
             "research": "config/research.json"}
 UNIT_FIELDS = {"id", "name", "target", "original_rva", "body_bytes", "body_sha256", "boundary", "source", "recipe",
@@ -115,8 +116,8 @@ def check_ranges(units):
         ends[unit["target"]] = start + unit["body_bytes"]
 
 
-def load_scope(root):
-    scope = read(root / "config/scope.json")
+def load_scope(root, scope=None):
+    scope = read(root / "config/scope.json") if scope is None else scope
     if set(scope) != {"schema_version", "name", "inventory_complete", "engine_total_units", "engine_total_body_bytes", "units"}:
         raise IntegrationError("Unexpected enrolled-scope fields")
     if (scope["schema_version"] != 1 or scope["inventory_complete"] is not False
@@ -143,11 +144,25 @@ def load_scope(root):
                 raise IntegrationError("Recipe must live under config/recipes")
         if unit["recipe_template"].endswith(".local.json"):
             raise IntegrationError("Public recipe template cannot be machine-local")
-        date.fromisoformat(unit["first_recorded_date"])
-        if unit["date_basis"] != "published-progress-snapshot-date" or set(unit["acceptance_evidence"]) != {"receipt_sha256", "publication_snapshot_sha256"}:
+        first_day = date.fromisoformat(unit["first_recorded_date"])
+        evidence = unit["acceptance_evidence"]
+        if unit["date_basis"] == "published-progress-snapshot-date":
+            if set(evidence) != {"receipt_sha256", "publication_snapshot_sha256"}:
+                raise IntegrationError("Historical publication needs its frozen evidence basis")
+            for value in evidence.values():
+                checked_hash(value)
+        elif unit["date_basis"] == "verified-local-enrollment-date":
+            if set(evidence) != {"receipt_sha256", "recorded_at"}:
+                raise IntegrationError("New enrollment needs its verified receipt and UTC time")
+            checked_hash(evidence["receipt_sha256"])
+            stamp = evidence["recorded_at"]
+            if not isinstance(stamp, str) or not stamp.endswith("Z"):
+                raise IntegrationError("Enrollment time must be explicit UTC")
+            recorded = datetime.fromisoformat(stamp.replace("Z", "+00:00"))
+            if recorded.date() != first_day or recorded > datetime.now(timezone.utc):
+                raise IntegrationError("Enrollment date differs from its recorded UTC time")
+        else:
             raise IntegrationError("First recorded day needs its frozen evidence basis")
-        for value in unit["acceptance_evidence"].values():
-            checked_hash(value)
         for key in ("contributor", "model"):
             if unit[key] is not None and (not isinstance(unit[key], str) or not re.fullmatch(r"[A-Za-z0-9_. +@-]{1,100}", unit[key])):
                 raise IntegrationError("Invalid recorded attribution")
@@ -251,6 +266,9 @@ def validate_snapshot(root, data):
                 raise IntegrationError("Integrated unit differs from enrolled acceptance")
         if date.fromisoformat(unit["first_recorded_date"]) > completed.date():
             raise IntegrationError("Acceptance date is after integration")
+        if (unit["date_basis"] == "verified-local-enrollment-date"
+                and datetime.fromisoformat(unit["acceptance_evidence"]["recorded_at"].replace("Z", "+00:00")) > completed):
+            raise IntegrationError("Enrollment timestamp is after integration completion")
         if unit["target_sha256"] != targets[unit["target"]]["sha256"]:
             raise IntegrationError("Integrated target identity differs")
         if unit["recipe_id"] != digest(enrolled["recipe"].encode()):
@@ -369,6 +387,7 @@ def run_integration(root=ROOT, targets_override=None):
                 raise IntegrationError("--targets may relocate inputs but cannot change pinned identities")
             targets = overrides
         bindings = {key: file_identity(root, value) for key, value in BINDINGS.items()}
+        verify_new_enrollments(root, scope, previous, bindings, targets)
         gate = load_gate(root)
         grouped = {}
         for unit in scope["units"]:
@@ -426,6 +445,39 @@ def run_integration(root=ROOT, targets_override=None):
     except Exception as error:
         write(state_path, {"id": attempt, "status": "failed", "error": str(error)})
         raise
+
+
+def verify_new_enrollments(root, scope, previous, bindings, targets):
+    """New acceptance dates come from a fresh local enrollment, never a guessed publication.
+
+    Later rebuilds keep that first record unchanged. As elsewhere, this is local
+    maintainer evidence, not an authenticated external clock or signed attestation.
+    """
+    accepted = {unit["id"] for snapshot in previous for unit in snapshot["units"]}
+    fresh = [unit for unit in scope["units"] if unit["id"] not in accepted]
+    grouped = {}
+    for unit in fresh:
+        if unit["date_basis"] != "verified-local-enrollment-date":
+            if accepted:
+                raise IntegrationError("New units require a verified local enrollment, not a historical publication date")
+            # Initial historical migration only; later additions use fresh evidence.
+            continue
+        grouped.setdefault(unit["acceptance_evidence"]["receipt_sha256"], []).append(unit)
+    for receipt_hash, enrolled in grouped.items():
+        path = root / "Results/Enrollment" / (receipt_hash + ".json")
+        if digest(path.read_bytes()) != receipt_hash:
+            raise IntegrationError("First enrollment receipt changed")
+        record = read(path)
+        if (set(record) != {"schema_version", "recorded_at", "unit_ids", "matching_receipt"}
+                or record["schema_version"] != 1
+                or sorted(record["unit_ids"]) != sorted(u["id"] for u in enrolled)
+                or any(record["recorded_at"] != u["acceptance_evidence"]["recorded_at"] for u in enrolled)):
+            raise IntegrationError("First enrollment record differs from the declared acceptance")
+        recipes = {u["recipe"] for u in enrolled}
+        if len(recipes) != 1:
+            raise IntegrationError("First enrollment receipt spans different recipes")
+        recipe_path = relative_file(root, next(iter(recipes)))
+        verify_receipt(root, record["matching_receipt"], recipe_path, read(recipe_path), enrolled, bindings, targets)
 
 
 def current_local_receipts(root=ROOT):
