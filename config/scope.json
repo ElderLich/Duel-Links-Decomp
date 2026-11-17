@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "name": "Duel Links enrolled native reconstruction units",
+  "inventory_complete": false,
+  "engine_total_units": null,
+  "engine_total_body_bytes": null,
+  "units": [
+    {
+      "id": "steam-current:DLL_GetRevision",
+      "name": "DLL_GetRevision",
+      "target": "steam-current",
+      "original_rva": "0x2060",
+      "body_bytes": 6,
+      "body_sha256": "e0eb3a7561c4076d7bec30953d095dcf3fa0b2a68f8eb60961258e95e548a201",
+      "boundary": "leaf-return-u32",
+      "source": "Source/revision.cpp",
+      "recipe": "config/recipes/steam_revision.local.json",
+      "recipe_template": "config/recipes/steam_revision.example.json",
+      "first_recorded_date": "2026-11-17",
+      "date_basis": "published-progress-snapshot-date",
+      "acceptance_evidence": {
+        "receipt_sha256": "8d9a85d0b974f3a3446cd017d33fe8594cadf8102f7c019404fe5a8a464b9d10",
+        "publication_snapshot_sha256": "202f28e7e705feaadf7238481c91389832bb6f7137f22a4c16c0e1e8242d2322"
+      },
+      "contributor": null,
+      "model": null
+    }
+  ]
+}

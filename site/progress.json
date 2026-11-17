@@ -12,7 +12,7 @@
     "engine_total_functions": null,
     "engine_total_bytes": null,
     "completion_percent": null,
-    "ignored_receipts": 1,
+    "ignored_receipts": 0,
     "negative_control": "passed"
   },
   "targets": [
@@ -71,9 +71,9 @@
           "sha256": "ec6172718f5569a27dbdd46cb61d72a489c7daa68bc89ccfb8da0cd62c664ab3"
         }
       ],
-      "receipt_sha256": "8d9a85d0b974f3a3446cd017d33fe8594cadf8102f7c019404fe5a8a464b9d10",
-      "gate_sha256": "22cf33c1809c99f1883f213dd5ec92842e79f2b78e37f3df653e496741354bbc",
-      "recipe_sha256": "484faef2f2c1f8f82c05695ae4d1fdbf0fcb8f025aba3d6ee6c481d74040ce96"
+      "receipt_sha256": "72cb70ef118ebf1b5d81dc44021b5d480d5390e9dbd640cb4688ad281de6995d",
+      "gate_sha256": "2daec81ec669c02123e5a09011f48bb1351345a50e2387cee5275de76439275a",
+      "recipe_sha256": "7c3962977d990e9633d2cfffa2eb2287b6743cf1cc2c18de0e90b8c4f01996c4"
     }
   ],
   "references": {

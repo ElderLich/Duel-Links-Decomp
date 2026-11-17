@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "id": "20261117T182921Z-cd8aab623ee54b4fa2a9eaba9c2c9ab2",
+  "status": "passed",
+  "completed_at": "2026-11-17T18:29:22.529730Z",
+  "verification": "local-native-full-enrolled-scope",
+  "bindings": {
+    "scope": {
+      "path": "config/scope.json",
+      "sha256": "874daf5a2a7668fcc1551cfd4498493150f8c9a26e92976da2e0942241ab9842",
+      "bytes": 1061
+    },
+    "targets": {
+      "path": "config/targets.json",
+      "sha256": "3e98fceed217051d81bf0858637aee4ccbe562a48e3a81e036d432baed0a77a9",
+      "bytes": 1243
+    },
+    "matcher": {
+      "path": "Tools/Matching/build_and_match.py",
+      "sha256": "2daec81ec669c02123e5a09011f48bb1351345a50e2387cee5275de76439275a",
+      "bytes": 40062
+    },
+    "integrator": {
+      "path": "Tools/Matching/integrate.py",
+      "sha256": "0b392e3a9730775bf8d13398c85a8069aae602df3b32b85396ccec2a541704eb",
+      "bytes": 28351
+    },
+    "exporter": {
+      "path": "Tools/export_dashboard.py",
+      "sha256": "38d5da086c2501c466a2c2b41a6e7c007b07adbc4cf5dcbd5c1dde05f3d68b4a",
+      "bytes": 6741
+    },
+    "progress_exporter": {
+      "path": "Tools/export_progress.py",
+      "sha256": "3fa2f959efe4d18e57e2240646ccf436f49680b0b2836ae385c3693066dcbc55",
+      "bytes": 17584
+    },
+    "research": {
+      "path": "config/research.json",
+      "sha256": "70ec04f34486dc846921395fb8f2aa2e0affb1ad610abd3d4189c8816368de6e",
+      "bytes": 1128
+    }
+  },
+  "units": [
+    {
+      "id": "steam-current:DLL_GetRevision",
+      "name": "DLL_GetRevision",
+      "target": "steam-current",
+      "original_rva": "0x2060",
+      "body_bytes": 6,
+      "body_sha256": "e0eb3a7561c4076d7bec30953d095dcf3fa0b2a68f8eb60961258e95e548a201",
+      "boundary": "leaf-return-u32",
+      "source": "Source/revision.cpp",
+      "first_recorded_date": "2026-11-17",
+      "date_basis": "published-progress-snapshot-date",
+      "acceptance_evidence": {
+        "receipt_sha256": "8d9a85d0b974f3a3446cd017d33fe8594cadf8102f7c019404fe5a8a464b9d10",
+        "publication_snapshot_sha256": "202f28e7e705feaadf7238481c91389832bb6f7137f22a4c16c0e1e8242d2322"
+      },
+      "contributor": null,
+      "model": null,
+      "status": "integrated",
+      "target_sha256": "66193d0d12f5fb5ef2fb9f5df1dfd6defae1432c9336ce6880e44190f7eb1ca7",
+      "recipe_id": "eeac5e0b9de2ff3881cbd60ebd158a06f1df29ccbc7f34d525dc6fa5dfa5c660",
+      "inputs": [
+        {
+          "path": "Source/revision.cpp",
+          "sha256": "0a36a897b0fa03c80577fc7685ca4a226dff5363f795685b96e373e6fc8e8950",
+          "bytes": 339
+        },
+        {
+          "path": "include/duel_exports.h",
+          "sha256": "ec6172718f5569a27dbdd46cb61d72a489c7daa68bc89ccfb8da0cd62c664ab3",
+          "bytes": 172
+        }
+      ],
+      "recipe_binding": {
+        "template": {
+          "path": "config/recipes/steam_revision.example.json",
+          "sha256": "ddc54d7c5cbdcd447adfb2a1a68b71bbc4f80bd77ce437f94cf41fcc54c252b2",
+          "bytes": 3722
+        },
+        "shape_sha256": "031a121e6322719a81ddbd5b705e903a222867c7ceaaeeb416b96df204ef7cfd",
+        "local_sha256": "7c3962977d990e9633d2cfffa2eb2287b6743cf1cc2c18de0e90b8c4f01996c4"
+      },
+      "tools": [
+        {
+          "name": "cc",
+          "sha256": "fe251ef50a1545b1b0835ee17b1e785459712b38d79e45b5c1d3d28970a36619",
+          "bytes": 677776
+        },
+        {
+          "name": "link",
+          "sha256": "a364af801a8539e4324d9489313dbf001d959128451fc99a27b24676bbac058f",
+          "bytes": 3252616
+        }
+      ],
+      "toolchain_files": [
+        {
+          "name": "c1xx.dll",
+          "sha256": "b96238e05dcc5fd9aa2614ab5e29ee2f9d3fd775fe41ce0a2202875956f383ed",
+          "bytes": 12332344
+        },
+        {
+          "name": "c2.dll",
+          "sha256": "b057a18570f712ffb535e227825a291706620f3337e5b13d896d6586fb6b3cec",
+          "bytes": 10462008
+        },
+        {
+          "name": "cl.exe.config",
+          "sha256": "a501d29c422af1bd2c3f9abb2bb1ab371c177a3f7ccb7fd8823709c57f114bfc",
+          "bytes": 409
+        },
+        {
+          "name": "link.exe.config",
+          "sha256": "a501d29c422af1bd2c3f9abb2bb1ab371c177a3f7ccb7fd8823709c57f114bfc",
+          "bytes": 409
+        },
+        {
+          "name": "msobj140.dll",
+          "sha256": "6a23e3aa1f1dc964f62c5a761d4ea279f77cc7c2ae3ac43e4fb91e7830bdd88f",
+          "bytes": 149344
+        },
+        {
+          "name": "mspdb140.dll",
+          "sha256": "eb6535aae9d1a9860c6973fdcd1c20c20045d13db77e1d1897a474b90867aff9",
+          "bytes": 345912
+        },
+        {
+          "name": "mspdbcore.dll",
+          "sha256": "589861f069bbbcc47cbf496c1d9c823a23cdaccbda671d602d88ff67b48d227e",
+          "bytes": 1321824
+        },
+        {
+          "name": "msvcdis140.dll",
+          "sha256": "e117f84ab6a78ce5e896ced882db6cde3e2fec0018a0963e8f50d6dc5bed52ff",
+          "bytes": 1824608
+        },
+        {
+          "name": "msvcp140.dll",
+          "sha256": "0fa7eb792d3fbcf2233e4ea47e9144b9b1309ba8ed5d4731a72fffa8f4f556d6",
+          "bytes": 557416
+        },
+        {
+          "name": "msvcp140_atomic_wait.dll",
+          "sha256": "b366579799aa419a9d50daefb34c1898d22044f72dbe0c38136f86f8c216cfa1",
+          "bytes": 50032
+        },
+        {
+          "name": "pgodb140.dll",
+          "sha256": "2dcb8bd692b6731fe41881666f8987126f1da87aad2145a54af6d5277e65bf91",
+          "bytes": 88096
+        },
+        {
+          "name": "tbbmalloc.dll",
+          "sha256": "3629efbb6000da9c4ce7a9332affb85c8d04873be22a7af46b10e58a45357d89",
+          "bytes": 115000
+        },
+        {
+          "name": "vcruntime140.dll",
+          "sha256": "80b039ca328f53ce4f468eda0e6d25a6e565eb4842b3690db1d1cf033a1f2aca",
+          "bytes": 124264
+        },
+        {
+          "name": "vcruntime140_1.dll",
+          "sha256": "99ad0c5380674e28f965dc76b7cdfb8688cc2175a6641e00ab524195c3eaa900",
+          "bytes": 49592
+        }
+      ],
+      "dependency_manifest_sha256": "53a11547abc435d61e26fde73278cfc3490ce2a57bb750fc9c31dfd49ed33068",
+      "receipt_sha256": "72cb70ef118ebf1b5d81dc44021b5d480d5390e9dbd640cb4688ad281de6995d"
+    }
+  ],
+  "previous_integration_sha256": "20328b85186f1193b1327cc054b07ab2373861caf49c30be8511e76c9bb43167",
+  "payload_sha256": "d8d9e974422cda95c6b6fb0b0f73e41a43ce4dd8bdcac39b1970ee03e98c0d95"
+}

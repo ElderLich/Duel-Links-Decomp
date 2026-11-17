@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "targets": {
+    "cn-arm64-10.10.1032": "b3a348dbf1e2be1bbbd243bbf1dcf4287abf611688c831e86a5bbf75ca501621",
+    "steam-current": "66193d0d12f5fb5ef2fb9f5df1dfd6defae1432c9336ce6880e44190f7eb1ca7",
+    "steam-previous": "c42d35d34ceb543b159c9b8c3d4e9a55243a5898d75a09efc0bf7d73b3cb5b26"
+  },
+  "references": {
+    "host_bindings": 3980,
+    "verified_export_contracts": 154,
+    "shared_exports": 234,
+    "active_wasm_imports": 301,
+    "newly_recovered_card_references": 20,
+    "bridge_receipt_sha256": "230e4c2730bc2598dc8ea1ea5d38266f4057228b359fbe5c4206bde585f81c0e",
+    "contracts_receipt_sha256": "c2da7dea25a1564812057a3761bb196a84823f6af1d6137a134728c655075b58",
+    "card_reference_receipt_sha256": "b1677eb1185b1e3e777ed3d7f8aba3df473c5ffb23ad85bc63174850472f16c0"
+  },
+  "negative_control": {
+    "status": "passed",
+    "receipt_sha256": "5e80afdf6038d462f49c953c08baddde5d6fac680a97d202b5f886ac878c745d",
+    "gate_sha256": "2daec81ec669c02123e5a09011f48bb1351345a50e2387cee5275de76439275a",
+    "target_sha256": "66193d0d12f5fb5ef2fb9f5df1dfd6defae1432c9336ce6880e44190f7eb1ca7"
+  }
+}

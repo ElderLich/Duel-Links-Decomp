@@ -8,6 +8,8 @@ import json
 from pathlib import Path, PurePosixPath
 import re
 
+from Matching import integrate
+
 SHA = re.compile(r"[0-9a-f]{64}\Z")
 SYMBOL = re.compile(r"[A-Za-z_][A-Za-z0-9_]{0,127}\Z")
 RVA = re.compile(r"0x[0-9a-fA-F]{1,16}\Z")
@@ -17,7 +19,7 @@ LABELS = {
     "steam-previous": ("Steam / previous", "steam", "Historical target. Addresses and matches are version-specific."),
     "cn-arm64-10.10.1032": ("CN / 10.10.1032", "cn", "Android ARM64. Exact compiler and link recipe unresolved."),
 }
-BOUNDARIES = {"leaf-return-u32", "unwind", "symbol"}
+BOUNDARIES = {"leaf-return-u32"}
 
 
 def read(path: Path):
@@ -96,6 +98,73 @@ def references(root, targets):
     return result
 
 
+def validate_references(refs):
+    counts = {"host_bindings", "verified_export_contracts", "shared_exports", "active_wasm_imports", "newly_recovered_card_references"}
+    hashes = {"bridge_receipt_sha256", "contracts_receipt_sha256", "card_reference_receipt_sha256"}
+    if set(refs) != counts | hashes:
+        raise ValueError("Unexpected reference fields")
+    for key, value in refs.items():
+        if value is not None:
+            (checked_hash if key in hashes else integer)(value)
+
+
+def prepare_research(root):
+    """Prepare allowlisted local reference/control evidence before full integration."""
+    config = read(root / "config/targets.json")["targets"]
+    gate_hash = digest(root / "Tools/Matching/build_and_match.py")
+    control_path = root / "Results/selftest_mismatch.json"
+    control = optional_json(control_path)
+    negative = dict(status="unknown", receipt_sha256=None, gate_sha256=gate_hash, target_sha256=None)
+    if (control and control.get("status") == "mismatch"
+            and control.get("matchingGate", {}).get("sha256") == gate_hash
+            and control.get("target", {}).get("sha256") == config.get(control.get("targetName"), {}).get("sha256")
+            and control.get("dependencies") and control.get("functions")
+            and all(f.get("status") == "mismatch" and f.get("firstDifferentByte") is not None for f in control["functions"])):
+        negative.update(status="passed", receipt_sha256=digest(control_path), target_sha256=control["target"]["sha256"])
+    data = dict(schema_version=1, targets={key: value["sha256"] for key, value in config.items()},
+                references=references(root, config), negative_control=negative)
+    validate_research(root, data)
+    integrate.write(root / "config/research.json", data)
+    return data
+
+
+def validate_research(root, data):
+    if set(data) != {"schema_version", "targets", "references", "negative_control"} or data["schema_version"] != 1:
+        raise ValueError("Unexpected research evidence fields")
+    config = read(root / "config/targets.json")["targets"]
+    if data["targets"] != {key: value["sha256"] for key, value in config.items()}:
+        raise ValueError("Research target pins changed")
+    validate_references(data["references"])
+    control = data["negative_control"]
+    if set(control) != {"status", "receipt_sha256", "gate_sha256", "target_sha256"} or control["status"] not in {"passed", "unknown"}:
+        raise ValueError("Unexpected negative-control evidence")
+    if control["gate_sha256"] != digest(root / "Tools/Matching/build_and_match.py"):
+        raise ValueError("Negative-control gate changed; prepare references again")
+    if control["status"] == "passed":
+        checked_hash(control["receipt_sha256"])
+        if control["target_sha256"] not in data["targets"].values():
+            raise ValueError("Negative-control target changed")
+    elif control["receipt_sha256"] is not None or control["target_sha256"] is not None:
+        raise ValueError("Unknown negative control cannot claim proof")
+    return data
+
+
+def integrated_units(root):
+    """Map only validated integration evidence to the compact public match ledger."""
+    accepted = integrate.validate_snapshot(root, read(root / "config/integration.json"))
+    result = []
+    for unit in accepted["units"]:
+        inputs = [{"path": item["path"], "sha256": item["sha256"]} for item in unit["inputs"]]
+        source = next(item for item in inputs if item["path"] == unit["source"])
+        result.append(dict(name=unit["name"], target=unit["target"], status="matched",
+                           body_bytes=unit["body_bytes"], boundary=unit["boundary"],
+                           original_rva=unit["original_rva"], body_sha256=unit["body_sha256"],
+                           target_sha256=unit["target_sha256"], source=source, inputs=inputs,
+                           receipt_sha256=unit["receipt_sha256"], gate_sha256=accepted["bindings"]["matcher"]["sha256"],
+                           recipe_sha256=unit["recipe_binding"]["local_sha256"]))
+    return sorted(result, key=lambda u: (u["target"], int(u["original_rva"], 16)))
+
+
 def export(root: Path, repo_url: str):
     if not REPO.fullmatch(repo_url):
         raise ValueError("Expected a public GitHub owner/repository URL without credentials")
@@ -110,74 +179,19 @@ def export(root: Path, repo_url: str):
         targets.append(dict(id=name, label=label, platform=platform, format=spec["format"],
                             architecture=spec["architecture"], sha256=checked_hash(spec["sha256"]),
                             image_bytes=integer(spec["bytes"]), toolchain_note=note))
-    units = {}
+    # Only the latest successful full rebuild can supply public acceptance.
+    # Arbitrary JSON files in Results are never an acceptance source.
+    integrate.current_local_receipts(root)
+    units = integrated_units(root)
     ignored = 0
-    negative_control = False
-    for path in sorted((root / "Results").glob("*.json")):
-        report = read(path)
-        target_name = report.get("targetName")
-        target = config.get(target_name)
-        if not target or target_name not in LABELS or report.get("target", {}).get("sha256") != target["sha256"]:
-            ignored += 1
-            continue
-        if path.name == "selftest_mismatch.json" and report.get("status") == "mismatch":
-            negative_control = any(f.get("status") == "mismatch" and f.get("firstDifferentByte") is not None
-                                   for f in report.get("functions", []))
-        if report.get("status") != "matched":
-            ignored += 1
-            continue
-        try:
-            inputs = []
-            for entry in report["inputs"]:
-                relative = source_path(entry["path"])
-                sha = checked_hash(entry["sha256"])
-                source = root / relative
-                if not source.is_file() or digest(source) != sha:
-                    raise ValueError("Stale or missing source input")
-                inputs.append(dict(path=relative, sha256=sha))
-            sources = [entry for entry in inputs if PurePosixPath(entry["path"]).suffix in {".c", ".cc", ".cpp", ".cxx"}]
-            if not sources:
-                raise ValueError("No source input")
-            accepted = []
-            for function in report["functions"]:
-                original, rebuilt = function["original"], function["rebuilt"]
-                name = function["name"]
-                size = integer(original["size"])
-                if (function["status"] != "matched" or not SYMBOL.fullmatch(name)
-                        or size == 0 or size != rebuilt["size"] or size > 1048576
-                        or original["boundary"] not in BOUNDARIES
-                        or original["sha256"] != rebuilt["sha256"]
-                        or not RVA.fullmatch(original["rva"])
-                        or function.get("firstDifferentByte") is not None):
-                    raise ValueError("Unproven match receipt")
-                accepted.append(dict(name=name, target=target_name, status="matched", body_bytes=size,
-                                     boundary=original["boundary"], original_rva=original["rva"].lower(),
-                                     body_sha256=checked_hash(original["sha256"]),
-                                     target_sha256=checked_hash(target["sha256"]), source=sources[0], inputs=inputs,
-                                     receipt_sha256=digest(path),
-                                     gate_sha256=checked_hash(report["matchingGate"]["sha256"]),
-                                     recipe_sha256=checked_hash(report["recipe"]["sha256"])))
-        except (ValueError, KeyError, TypeError):
-            ignored += 1
-            continue
-        for unit in accepted:
-            key = (unit["target"], unit["original_rva"])
-            if key in units and (units[key]["body_sha256"], units[key]["body_bytes"]) != (unit["body_sha256"], unit["body_bytes"]):
-                raise ValueError("Conflicting matching receipts for one target range")
-            units[key] = unit
-    units = sorted(units.values(), key=lambda u: (u["target"], int(u["original_rva"], 16)))
-    previous = {}
-    for unit in units:
-        start = int(unit["original_rva"], 16)
-        if start < previous.get(unit["target"], 0):
-            raise ValueError("Overlapping matched ranges cannot be counted twice")
-        previous[unit["target"]] = start + unit["body_bytes"]
+    research = validate_research(root, read(root / "config/research.json"))
+    negative_control = research["negative_control"]["status"] == "passed"
     data = dict(schema_version=1, updated=datetime.now(timezone.utc).date().isoformat(),
                 project=dict(name="Duel Links Native Decompilation", repo_url=repo_url, branch="main"),
                 summary=dict(verified_functions=len(units), matched_body_bytes=sum(u["body_bytes"] for u in units),
                              engine_total_functions=None, engine_total_bytes=None, completion_percent=None,
                              ignored_receipts=ignored, negative_control="passed" if negative_control else "unknown"),
-                targets=targets, units=units, references=references(root, config))
+                targets=targets, units=units, references=research["references"])
     validate(data)
     validate_checkout(data, root)
     return data
@@ -240,14 +254,7 @@ def validate(data):
             end = start + size
     if summary["verified_functions"] != len(data["units"]) or summary["matched_body_bytes"] != sum(u["body_bytes"] for u in data["units"]):
         raise ValueError("Progress totals do not match the verified ledger")
-    refs = data["references"]
-    counts = {"host_bindings", "verified_export_contracts", "shared_exports", "active_wasm_imports", "newly_recovered_card_references"}
-    hashes = {"bridge_receipt_sha256", "contracts_receipt_sha256", "card_reference_receipt_sha256"}
-    if set(refs) != counts | hashes:
-        raise ValueError("Unexpected reference fields")
-    for key, value in refs.items():
-        if value is not None:
-            (checked_hash if key in hashes else integer)(value)
+    validate_references(data["references"])
 
 
 def validate_checkout(data, root):
@@ -274,6 +281,11 @@ def validate_checkout(data, root):
             path = root / source_path(item["path"])
             if not path.is_file() or digest(path) != item["sha256"]:
                 raise ValueError(f"Declared source/header changed after receipt: {item['path']}")
+    research = validate_research(root, read(root / "config/research.json"))
+    if data["references"] != research["references"] or data["summary"]["negative_control"] != research["negative_control"]["status"]:
+        raise ValueError("Published research/control claims differ from integration-bound evidence")
+    if data["units"] != integrated_units(root):
+        raise ValueError("Public matches differ from the successful integration snapshot")
 
 
 def main():
@@ -282,14 +294,19 @@ def main():
     parser.add_argument("--output", type=Path)
     parser.add_argument("--repo-url", default="https://github.com/ElderLich/Duel-Links-Decomp")
     parser.add_argument("--check", action="store_true", help="Validate committed public JSON without private evidence/binaries")
+    parser.add_argument("--prepare-references", action="store_true", help="Prepare local research/control evidence before full integration")
     args = parser.parse_args()
+    if args.prepare_references:
+        prepare_research(args.root.resolve())
+        print("Prepared integration-bound research and negative-control evidence.")
+        return 0
     path = args.output or args.root / "site/progress.json"
     if args.check:
         data = read(path); validate(data); validate_checkout(data, args.root.resolve())
     else:
         data = export(args.root.resolve(), args.repo_url)
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+        path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"Public snapshot valid: {data['summary']['verified_functions']} functions; {data['summary']['matched_body_bytes']} matched body bytes.")
     return 0
 

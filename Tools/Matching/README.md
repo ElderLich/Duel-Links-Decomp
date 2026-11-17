@@ -1,6 +1,6 @@
 # Native build and byte-matching gate
 
-Run from `DLL Research` with Python 3.10 or newer. The gate uses only the standard library and does not execute a game library.
+Run from `DLL Research` with Python 3.11 or newer. The gate uses only the standard library and does not execute a game library.
 
 ```powershell
 python Decomp/Tools/Matching/build_and_match.py verify-targets
@@ -24,16 +24,31 @@ Each recipe declares:
 
 - One pinned target name from `config/targets.json`.
 - `inputs`: C/C++ source and all local header/dependency paths relative to Decomp (absolute paths also work). Every source must appear directly in a build command.
-- `tools`: named executable paths with exact SHA-256 values; `toolchainFiles` pins additional compiler components.
+- `buildProfile`: `msvc-x64-closed-v1`, the currently supported native build profile.
+- `tools`: pinned `cc` and `link` executable paths; `toolchainFiles` pins the compiler's local dependency closure, including backends and configuration files.
 - `commands`: argument arrays, with `{decomp}`, `{root}`, `{build}` and named tool placeholders. Commands run without a shell in a fresh build directory. Ambient MSVC `CL`, `_CL_`, `LINK`, `_LINK_`, `INCLUDE`, `LIB` and `LIBPATH` overrides are cleared.
 - `output`: a newly generated PE/ELF inside that attempt's build directory.
 - `functions`: each has a name and separate original/rebuilt selectors. A selector uses `export`, PE `rva`, or explicit `va`, plus a supported boundary rule. Optional `size` must agree with the independently derived range.
 
-The gate accepts complete supported return-u32 leaf grammars, PE runtime-function ranges (`boundary: unwind`), or nonzero ELF function-symbol sizes (`boundary: symbol`). An unwind range is a bounded native range and can be a compiler fragment; matching it does not establish all source-level function fragments. Unknown boundaries and supplied guesses are rejected. Raw COFF/object files and stripped ELF files without section inventories are not currently supported.
+Only complete supported return-u32 leaf grammars can earn acceptance. PE runtime-function ranges (`boundary: unwind`) and ELF function-symbol sizes (`boundary: symbol`) do not prove reference destinations, exception behavior or all fragments, so these selectors are refused for matching. Unknown boundaries and supplied guesses are rejected. The parser retains PE/ELF metadata for inspection; there is no certified ARM64 compile profile yet.
 
-Any overlapping dynamic/base relocation rejects the range; unsupported relocation kinds reject the image. There are no wildcard, relocation-masking, percentage-similarity, padding-filling or forced-match modes. Link-dependent displacement mismatches remain failures. Relocation-aware object/link comparison is future work, separately scoped from this strict gate.
+A leaf must start at an independently identified entry: a PE export or runtime-function entry, or an ELF function symbol with a nonzero size. An arbitrary RVA containing return instructions is insufficient. Starting inside another known function range is rejected, even if the selected suffix looks like a complete leaf.
 
-The build recipe and declared toolchain are trusted local inputs. Declaring a source file is not proof of original source identity or complete transitive dependency discovery. Record every build dependency, inspect the source and compiler commands, and add compiler-produced dependency records when more complex source is introduced. The report describes only the compiled inputs and exact ranges observed.
+Any overlapping dynamic/base relocation rejects the range; unsupported relocation kinds reject the image. Equal raw bytes are insufficient for address-sensitive instructions: the same relative displacement at a different address can reference a different object. The leaf grammar excludes those instructions. There are no wildcard, relocation-masking, percentage-similarity, padding-filling or forced-match modes. General relocation-aware comparison requires new verified tooling.
+
+The gate injects MSVC `/sourceDependencies` and requires the compiler-observed source/header set to equal the declared inputs. It checks fresh ordinary AMD64 COFF outputs and permits only the closed compile/link argument profile. Response files, prebuilt object/library inputs, forced includes, PCH, modules and unsupported compiler/linker options are rejected. Ambient option variables are cleared and identities are checked again after compilation.
+
+Local static/delay DLL imports, known compiler backends and compiler configuration files are pinned. Windows system libraries remain a trusted boundary; this is not a hermetic operating-system image or runtime DLL-load trace. Source checks reject recognizable assembly, byte emission and section-allocation tricks, but they are conservative textual heuristics, not a complete C++ parser. Human source and tooling review remains required.
+
+## Integrate and publish
+
+From the Decomp repository root, `python Tools/refresh.py` runs tests, rebuilds every enrolled recipe, exports public data, and checks both snapshots. `python Tools/refresh.py --check` runs fixture tests and public consistency checks without private binaries.
+
+`config/scope.json` defines the enrolled target-specific units. `Tools/Matching/integrate.py` rebuilds them all afresh and verifies their complete original ranges and body hashes. Previous accepted units cannot silently disappear or shrink. A successful integration writes sanitized `config/integration.json`; full receipts and attempt state stay under ignored `Results/Integration/`.
+
+Both public exporters require the latest local integration to have passed. A failure leaves the last successful public snapshot intact and blocks new local export. Public `--check` validates source, scope, recipes, target and verification-tool identities, not the original binary itself. See [the matching policy](../../docs/MatchingPolicy.md) for the explicit trust boundary.
+
+The refresh command first prepares `config/research.json` from the local CN reference evidence and deliberately wrong compile receipt. Integration also binds this sanitized record, so public reference counts and negative-control status cannot change independently of the accepted snapshot. For the individual commands, run `python Tools/export_progress.py --prepare-references` before integration.
 
 ## Next native source work
 

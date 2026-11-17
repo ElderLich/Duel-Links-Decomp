@@ -3,30 +3,54 @@ name: Verify source and publish progress
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: pages
+  group: evidence-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false
 
 jobs:
-  build:
+  validate:
+    name: Check evidence and tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          fetch-depth: 2
       - name: Test the matching gate without game files
         run: python3 -m unittest discover -s Tools/Matching -p 'test_*.py' -v
+      - name: Test public evidence export
+        run: python3 -m unittest discover -s Tools -p 'test_export*.py' -v
       - name: Validate the public progress snapshot
         run: python3 Tools/export_progress.py --check
+      - name: Validate integration and dashboard consistency
+        run: python3 Tools/export_dashboard.py --check
+      - name: Check dashboard JavaScript
+        run: node --check site/app.js
+      - name: State the verification boundary
+        run: |
+          echo 'Fixture tests and public evidence consistency passed. This job does not hold the original game binaries and is not an independent native rebuild.' >> "$GITHUB_STEP_SUMMARY"
+  build:
+    needs: validate
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
           path: site
   deploy:
     needs: build
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       pages: write

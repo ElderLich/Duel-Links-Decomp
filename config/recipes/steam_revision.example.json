@@ -67,16 +67,53 @@
       "sha256": "b057a18570f712ffb535e227825a291706620f3337e5b13d896d6586fb6b3cec"
     },
     {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe.config",
+      "sha256": "a501d29c422af1bd2c3f9abb2bb1ab371c177a3f7ccb7fd8823709c57f114bfc"
+    },
+    {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/link.exe.config",
+      "sha256": "a501d29c422af1bd2c3f9abb2bb1ab371c177a3f7ccb7fd8823709c57f114bfc"
+    },
+    {
       "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/msobj140.dll",
       "sha256": "6a23e3aa1f1dc964f62c5a761d4ea279f77cc7c2ae3ac43e4fb91e7830bdd88f"
+    },
+    {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/mspdb140.dll",
+      "sha256": "eb6535aae9d1a9860c6973fdcd1c20c20045d13db77e1d1897a474b90867aff9"
     },
     {
       "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/mspdbcore.dll",
       "sha256": "589861f069bbbcc47cbf496c1d9c823a23cdaccbda671d602d88ff67b48d227e"
     },
     {
-      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/mspdb140.dll",
-      "sha256": "eb6535aae9d1a9860c6973fdcd1c20c20045d13db77e1d1897a474b90867aff9"
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/msvcdis140.dll",
+      "sha256": "e117f84ab6a78ce5e896ced882db6cde3e2fec0018a0963e8f50d6dc5bed52ff"
+    },
+    {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/msvcp140.dll",
+      "sha256": "0fa7eb792d3fbcf2233e4ea47e9144b9b1309ba8ed5d4731a72fffa8f4f556d6"
+    },
+    {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/msvcp140_atomic_wait.dll",
+      "sha256": "b366579799aa419a9d50daefb34c1898d22044f72dbe0c38136f86f8c216cfa1"
+    },
+    {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/pgodb140.dll",
+      "sha256": "2dcb8bd692b6731fe41881666f8987126f1da87aad2145a54af6d5277e65bf91"
+    },
+    {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/tbbmalloc.dll",
+      "sha256": "3629efbb6000da9c4ce7a9332affb85c8d04873be22a7af46b10e58a45357d89"
+    },
+    {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/vcruntime140.dll",
+      "sha256": "80b039ca328f53ce4f468eda0e6d25a6e565eb4842b3690db1d1cf033a1f2aca"
+    },
+    {
+      "path": "C:/YOUR/MSVC/14.44.35207/bin/Hostx64/x64/vcruntime140_1.dll",
+      "sha256": "99ad0c5380674e28f965dc76b7cdfb8688cc2175a6641e00ab524195c3eaa900"
     }
-  ]
+  ],
+  "buildProfile": "msvc-x64-closed-v1"
 }

@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "project": {
+    "name": "Duel Links Native Decompilation",
+    "repo_url": "https://github.com/ElderLich/Duel-Links-Decomp",
+    "branch": "main"
+  },
+  "integration": {
+    "id": "20261117T182921Z-cd8aab623ee54b4fa2a9eaba9c2c9ab2",
+    "completed_at": "2026-11-17T18:29:22.529730Z",
+    "status": "passed",
+    "verification": "local-native-full-enrolled-scope",
+    "ci_verification": "consistency-only-no-native-binaries",
+    "snapshot_sha256": "2a070b75dd229a30ffb4d524ce350e303261d05ef04de3a55e5bdf67e3bd99e2"
+  },
+  "scope": {
+    "inventory_complete": false,
+    "enrolled_units": 1,
+    "enrolled_body_bytes": 6,
+    "integrated_units": 1,
+    "integrated_body_bytes": 6,
+    "pending_units": 0,
+    "pending_body_bytes": 0,
+    "engine_total_units": null,
+    "engine_total_body_bytes": null,
+    "engine_completion_percent": null
+  },
+  "targets": [
+    {
+      "id": "cn-arm64-10.10.1032",
+      "label": "CN / 10.10.1032",
+      "platform": "cn",
+      "sha256": "b3a348dbf1e2be1bbbd243bbf1dcf4287abf611688c831e86a5bbf75ca501621",
+      "enrolled_units": 0,
+      "enrolled_body_bytes": 0,
+      "integrated_units": 0,
+      "integrated_body_bytes": 0,
+      "pending_units": 0,
+      "pending_body_bytes": 0
+    },
+    {
+      "id": "steam-current",
+      "label": "Steam / current",
+      "platform": "steam",
+      "sha256": "66193d0d12f5fb5ef2fb9f5df1dfd6defae1432c9336ce6880e44190f7eb1ca7",
+      "enrolled_units": 1,
+      "enrolled_body_bytes": 6,
+      "integrated_units": 1,
+      "integrated_body_bytes": 6,
+      "pending_units": 0,
+      "pending_body_bytes": 0
+    },
+    {
+      "id": "steam-previous",
+      "label": "Steam / previous",
+      "platform": "steam",
+      "sha256": "c42d35d34ceb543b159c9b8c3d4e9a55243a5898d75a09efc0bf7d73b3cb5b26",
+      "enrolled_units": 0,
+      "enrolled_body_bytes": 0,
+      "integrated_units": 0,
+      "integrated_body_bytes": 0,
+      "pending_units": 0,
+      "pending_body_bytes": 0
+    }
+  ],
+  "units": [
+    {
+      "id": "steam-current:DLL_GetRevision",
+      "name": "DLL_GetRevision",
+      "target": "steam-current",
+      "source": "Source/revision.cpp",
+      "original_rva": "0x2060",
+      "body_bytes": 6,
+      "status": "integrated",
+      "first_accepted_date": "2026-11-17",
+      "contributor": null,
+      "model": null
+    }
+  ],
+  "daily_trend": [
+    {
+      "date": "2026-11-17",
+      "accepted_units": 1,
+      "accepted_body_bytes": 6,
+      "cumulative_units": 1,
+      "cumulative_body_bytes": 6
+    }
+  ],
+  "size_map": [
+    {
+      "id": "steam-current:DLL_GetRevision",
+      "name": "DLL_GetRevision",
+      "target": "steam-current",
+      "source": "Source/revision.cpp",
+      "body_bytes": 6,
+      "status": "integrated"
+    }
+  ],
+  "contributors": [
+    {
+      "id": "unknown",
+      "label": "Unknown / unrecorded",
+      "units": 1,
+      "body_bytes": 6
+    }
+  ],
+  "models": [
+    {
+      "id": "unknown",
+      "label": "Unknown / unrecorded",
+      "units": 1,
+      "body_bytes": 6
+    }
+  ],
+  "milestones": [
+    {
+      "id": "full-enrolled-integration",
+      "date": "2026-11-17",
+      "label": "All enrolled units rebuilt and matched",
+      "units": 1,
+      "body_bytes": 6
+    }
+  ],
+  "limitations": [
+    "Full enrolled-scope success is not whole-engine completion; the native inventory denominator is unknown.",
+    "CI validates committed source, recipe, toolchain pins and ledger consistency. It cannot independently match private native binaries.",
+    "First acceptance dates show the first recorded publication day, bound to the original receipt and published snapshot; no precise original acceptance time was recorded.",
+    "Contributor and model attribution are unknown where no historical evidence was recorded. Token, cost and visitor data are not collected."
+  ]
+}
